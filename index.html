@@ -50,9 +50,8 @@
             padding: 20px;
         }
         
-        /* Vistas centradas para acceso y login admin */
         #vistaAcceso, #vistaAdminLogin {
-            display: none;
+            display: flex !important;
             justify-content: center;
             align-items: center;
         }
@@ -77,9 +76,9 @@
         .btn-success { background: linear-gradient(135deg, var(--verde), #047857); }
         .btn-sm { padding: 8px 14px; font-size: 11px; }
         
+        #vistaAcceso { display: flex; justify-content: center; align-items: center; padding: 20px; }
         .contenedor-acceso { width: 100%; max-width: 480px; padding: 50px 40px; position: relative; }
         
-        /* Centrar formulario de admin */
         #vistaAdminLogin .contenedor-acceso {
             max-width: 400px;
             margin: 0 auto;
@@ -257,7 +256,7 @@
             <span id="textoEstadoAcceso">Taquilla Abierta</span>
         </div>
         <header class="encabezado">
-            <div class="icono-caballo"></div>
+            <div class="icono-caballo">🏇</div>
             <h1 class="titulo-principal">PRONÓSTICOS</h1>
             <p class="subtitulo">Carreras de Caballos</p>
         </header>
@@ -271,10 +270,10 @@
                 Puedes usar una de estas opciones:
                 <div class="sugerencias-nombres" id="sugerenciasNombres"></div>
             </div>
-            <button type="submit" class="btn-participar"> Participar</button>
+            <button type="submit" class="btn-participar">🎯 Participar</button>
         </form>
         <div class="acceso-admin">
-            <button onclick="mostrarVista('vistaAdminLogin')">🔐 Acceso Administrador</button>
+            <button onclick="mostrarVista('vistaAdminLogin')">🔐 ADMIN</button>
         </div>
     </div>
 </section>
@@ -333,7 +332,11 @@
     <div class="contenedor-admin">
         <div class="admin-header glass">
             <div class="admin-titulo">PANEL DE CONTROL<small>Sistema de Pronósticos v6</small></div>
-            <button class="btn btn-secondary btn-sm" onclick="cerrarSesionAdmin()">🚪 Cerrar Sesión</button>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn btn-primary btn-sm" onclick="mostrarVista('vistaAcceso')">🏠 INICIO</button>
+                <button class="btn btn-secondary btn-sm" onclick="mostrarVista('vistaPublica')">👁️ Ver Jugadas</button>
+                <button class="btn btn-secondary btn-sm" onclick="cerrarSesionAdmin()">🚪 Salir</button>
+            </div>
         </div>
         <div class="admin-tabs">
             <button class="tab-btn activa" data-tab="tabCarreras">🏇 Carreras</button>
@@ -353,7 +356,10 @@
                             <span id="widgetSubtexto">Los jugadores pueden enviar sus jugadas</span>
                         </div>
                     </div>
-                    <button class="btn btn-primary btn-sm" id="btnToggleTaquilla" onclick="toggleTaquilla()">🔒 Cerrar Jugadas</button>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="btn btn-secondary btn-sm" onclick="mostrarVista('vistaPublica')">👁️ Ver Jugadas</button>
+                        <button class="btn btn-primary btn-sm" id="btnToggleTaquilla" onclick="toggleTaquilla()">🔒 Cerrar Taquilla</button>
+                    </div>
                 </div>
                 <div class="config-monto glass-strong">
                     <div>
@@ -455,7 +461,7 @@
 
 <div class="modal-overlay" id="modalEditar">
     <div class="modal-contenido glass" style="max-width: 700px;">
-        <h2 class="modal-titulo">️ EDITAR JUGADA</h2>
+        <h2 class="modal-titulo">✏️ EDITAR JUGADA</h2>
         <div id="contenidoEditar"></div>
         <div class="modal-botones" style="margin-top: 20px;">
             <button class="btn btn-secondary" onclick="cerrarModal('modalEditar')">Cancelar</button>
@@ -465,9 +471,6 @@
 </div>
 
 <script>
-    // ========================================
-    // 🔥 FIREBASE
-    // ========================================
     const firebaseConfig = {
         apiKey: "AIzaSyA6g20fMtuSQQ3H2n4ZpZg80qhcf5TgsvI",
         authDomain: "macuare-bdr.firebaseapp.com",
@@ -477,13 +480,7 @@
         appId: "1:710231694556:web:0cab9c362ba8703af06819"
     };
 
-    try {
-        firebase.initializeApp(firebaseConfig);
-        console.log('✅ Firebase inicializado');
-    } catch (error) {
-        console.error('❌ Error Firebase:', error);
-    }
-
+    firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
     const ADMIN_PASSWORD = 'admin123';
     
@@ -497,9 +494,6 @@
     let ticketEnEdicion = null;
     let listenersActivos = [];
 
-    // ========================================
-    // FUNCIONES FIREBASE
-    // ========================================
     async function cargarConfig() {
         try {
             const docRef = db.collection("config").doc("global");
@@ -512,7 +506,7 @@
                 estado.config = { estadoEvento: 'abierto', montoFijo: 10 };
             }
         } catch (error) {
-            console.error(' Error cargando config:', error);
+            console.error('❌ Error cargando config:', error);
         }
     }
 
@@ -640,26 +634,23 @@
         listenersActivos = [];
     }
 
-    // ========================================
-    // NAVEGACIÓN CON SCROLL AUTOMÁTICO
-    // ========================================
     function mostrarVista(id) {
         limpiarListeners();
         document.querySelectorAll('.vista').forEach(v => v.classList.remove('activa'));
         document.getElementById(id).classList.add('activa');
         
-        // Scroll automático suave al inicio
-        setTimeout(() => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        }, 50);
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
         
         if (id === 'vistaAcceso') {
             escucharConfig(actualizarEstadoAcceso);
         } else if (id === 'vistaSeleccion') {
             escucharCarreras(renderizarCarrerasSeleccion);
+            setTimeout(() => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 100);
         } else if (id === 'vistaPublica') {
             escucharConfig(() => {});
             escucharTickets(renderizarPantallaPublica);
@@ -667,6 +658,13 @@
             escucharConfig(renderizarAdmin);
             escucharCarreras(renderizarAdmin);
             escucharTickets(renderizarAdmin);
+            setTimeout(() => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 100);
+        } else if (id === 'vistaAdminLogin') {
+            setTimeout(() => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 100);
         }
     }
 
@@ -684,9 +682,6 @@
         }
     }
 
-    // ========================================
-    // VISTA ACCESO
-    // ========================================
     function generarSugerencias(nombreBase) {
         const sugerencias = [];
         const nombresExistentes = estado.tickets.map(t => t.nombre);
@@ -744,9 +739,6 @@
         document.getElementById('mensajeSugerencia').classList.remove('activo');
     });
 
-    // ========================================
-    // VISTA SELECCIÓN
-    // ========================================
     function iniciarJugador(nombre) {
         jugadorActual = {
             nombre: nombre,
@@ -853,9 +845,6 @@
         return ord[n-1];
     }
 
-    // ========================================
-    // MODAL CONFIRMACIÓN Y ENVÍO
-    // ========================================
     function abrirModalConfirmacion() {
         const resumen = document.getElementById('resumenJugada');
         resumen.innerHTML = '';
@@ -946,9 +935,8 @@
             console.log('✅ Copiado al portapapeles');
             return true;
         } catch (err) {
-            console.error(' Error con clipboard API:', err);
+            console.error('❌ Error con clipboard API:', err);
             
-            // Fallback para navegadores que no soportan clipboard API
             const ta = document.createElement('textarea');
             ta.value = texto;
             ta.style.position = 'fixed';
@@ -979,9 +967,6 @@
         mostrarVista('vistaAcceso');
     }
 
-    // ========================================
-    // ADMIN LOGIN
-    // ========================================
     document.getElementById('formAdminLogin').addEventListener('submit', (e) => {
         e.preventDefault();
         console.log('✅ Login admin intentado');
@@ -999,9 +984,6 @@
         mostrarVista('vistaAcceso');
     }
 
-    // ========================================
-    // ADMIN - TABS
-    // ========================================
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('activa'));
@@ -1011,9 +993,6 @@
         });
     });
 
-    // ========================================
-    // ADMIN - RENDERIZADO
-    // ========================================
     function renderizarAdmin() {
         renderizarWidgetEstado();
         renderizarConfigMonto();
@@ -1027,19 +1006,16 @@
         const indicador = document.getElementById('widgetIndicador');
         const texto = document.getElementById('widgetTexto');
         const subtexto = document.getElementById('widgetSubtexto');
-        const btn = document.getElementById('btnToggleTaquilla');
         if (!indicador) return;
         
         if (estado.config.estadoEvento === 'abierto') {
             indicador.classList.remove('cerrado');
             texto.textContent = 'TAQUILLA ABIERTA';
             subtexto.textContent = 'Los jugadores pueden enviar sus jugadas';
-            btn.innerHTML = '🔒 Cerrar Jugadas';
         } else {
             indicador.classList.add('cerrado');
             texto.textContent = 'TAQUILLA CERRADA';
             subtexto.textContent = 'Puedes cargar resultados y marcar retiros';
-            btn.innerHTML = '🔓 Abrir Jugadas';
         }
     }
 
@@ -1048,6 +1024,12 @@
         if (confirm(`¿Está seguro de ${accion} la taquilla?`)) {
             const nuevoEstado = estado.config.estadoEvento === 'abierto' ? 'cerrado' : 'abierto';
             await actualizarConfig({ estadoEvento: nuevoEstado });
+            
+            if (nuevoEstado === 'cerrado') {
+                setTimeout(() => {
+                    mostrarVista('vistaPublica');
+                }, 500);
+            }
         }
     }
 
@@ -1297,7 +1279,7 @@
                     <div class="acciones-fila">
                         <button class="btn btn-secondary btn-sm" onclick="editarTicket('${ticket.id}')">✏️</button>
                         <button class="btn btn-secondary btn-sm" onclick="verLogTicket('${ticket.id}')">📋</button>
-                        <button class="btn btn-danger btn-sm" onclick="eliminarTicket('${ticket.id}')">️</button>
+                        <button class="btn btn-danger btn-sm" onclick="eliminarTicket('${ticket.id}')">🗑️</button>
                     </div>
                 </td>
             `;
@@ -1359,7 +1341,7 @@
         if (!nuevoNombre) { alert('El nombre no puede estar vacío'); return; }
         
         const duplicado = estado.tickets.find(t => t.id !== ticketEnEdicion.id && t.nombre === nuevoNombre);
-        if (duplicado) { alert('️ Ya existe un ticket con ese nombre'); return; }
+        if (duplicado) { alert('⚠️ Ya existe un ticket con ese nombre'); return; }
         
         ticketEnEdicion.nombre = nuevoNombre;
         ticketEnEdicion.selecciones.forEach((sel, idx) => {
@@ -1546,9 +1528,6 @@
         doc.save('reporte-pronosticos.pdf');
     }
 
-    // ========================================
-    // INICIALIZACIÓN
-    // ========================================
     async function inicializar() {
         try {
             await cargarConfig();
@@ -1558,7 +1537,7 @@
             escucharConfig(actualizarEstadoAcceso);
             console.log('✅ Sistema completamente inicializado');
         } catch (error) {
-            console.error(' Error en inicialización:', error);
+            console.error('❌ Error en inicialización:', error);
         }
     }
 
