@@ -50,9 +50,9 @@
             padding: 20px;
         }
         
-        /* Vistas centradas */
+        /* Vistas centradas para acceso y login admin */
         #vistaAcceso, #vistaAdminLogin {
-            display: flex !important;
+            display: none;
             justify-content: center;
             align-items: center;
         }
@@ -77,7 +77,6 @@
         .btn-success { background: linear-gradient(135deg, var(--verde), #047857); }
         .btn-sm { padding: 8px 14px; font-size: 11px; }
         
-        #vistaAcceso { display: flex; justify-content: center; align-items: center; padding: 20px; }
         .contenedor-acceso { width: 100%; max-width: 480px; padding: 50px 40px; position: relative; }
         
         /* Centrar formulario de admin */
@@ -251,9 +250,219 @@
 </head>
 <body>
 
-<!-- El HTML completo permanece igual, solo cambian las funciones JavaScript -->
+<section id="vistaAcceso" class="vista activa">
+    <div class="contenedor-acceso glass">
+        <div class="estado-evento">
+            <span class="punto-estado" id="puntoEstadoAcceso"></span>
+            <span id="textoEstadoAcceso">Taquilla Abierta</span>
+        </div>
+        <header class="encabezado">
+            <div class="icono-caballo"></div>
+            <h1 class="titulo-principal">PRONÓSTICOS</h1>
+            <p class="subtitulo">Carreras de Caballos</p>
+        </header>
+        <form class="formulario-acceso" id="formularioAcceso" autocomplete="off">
+            <div class="grupo-input">
+                <label class="label-input" for="nombreJugador">Tu nombre</label>
+                <input type="text" id="nombreJugador" class="input-nombre" placeholder="Ingresa tu nombre para participar" maxlength="30" required>
+            </div>
+            <div class="mensaje-sugerencia" id="mensajeSugerencia">
+                <strong>⚠️ Este nombre ya está participando.</strong><br>
+                Puedes usar una de estas opciones:
+                <div class="sugerencias-nombres" id="sugerenciasNombres"></div>
+            </div>
+            <button type="submit" class="btn-participar"> Participar</button>
+        </form>
+        <div class="acceso-admin">
+            <button onclick="mostrarVista('vistaAdminLogin')">🔐 Acceso Administrador</button>
+        </div>
+    </div>
+</section>
 
-<!-- ... (todo el HTML anterior se mantiene igual) ... -->
+<section id="vistaSeleccion" class="vista">
+    <div class="contenedor-seleccion">
+        <div class="barra-superior glass">
+            <div class="info-jugador">
+                <div class="avatar-jugador" id="avatarJugador">P</div>
+                <div>
+                    <div class="nombre-jugador" id="nombreJugadorSeleccion">Jugador</div>
+                    <div class="contador-progreso">Carreras completadas: <strong id="contadorProgreso">0</strong> de 6</div>
+                </div>
+            </div>
+            <button class="btn-salir" onclick="salirSeleccion()">✕ Salir</button>
+        </div>
+        <div class="grid-carreras" id="gridCarreras"></div>
+        <div class="barra-enviar glass">
+            <div class="mensaje-enviar" id="mensajeEnviar">Completa las <strong>6 carreras</strong> para habilitar el envío</div>
+            <button class="btn btn-primary btn-enviar" id="btnEnviar" disabled onclick="abrirModalConfirmacion()">📨 Enviar Jugada</button>
+        </div>
+    </div>
+</section>
+
+<section id="vistaPublica" class="vista">
+    <div class="contenedor-publica">
+        <div class="banner-publica glass">
+            <h1>🏇 JUGADAS REGISTRADAS</h1>
+            <div class="stats">Total de participaciones: <strong id="totalParticipaciones">0</strong></div>
+        </div>
+        <div class="lista-jugadas-publica" id="listaJugadasPublica"></div>
+    </div>
+</section>
+
+<section id="vistaAdminLogin" class="vista">
+    <div class="contenedor-acceso glass">
+        <header class="encabezado">
+            <div class="icono-caballo">🔐</div>
+            <h1 class="titulo-principal">ADMIN</h1>
+            <p class="subtitulo">Panel de Control</p>
+        </header>
+        <form class="formulario-acceso" id="formAdminLogin" autocomplete="off">
+            <div class="grupo-input">
+                <label class="label-input">Contraseña</label>
+                <input type="password" id="passwordAdmin" class="input-nombre" placeholder="Ingresa la contraseña" required>
+            </div>
+            <button type="submit" class="btn-participar">🔓 Ingresar</button>
+        </form>
+        <div class="acceso-admin">
+            <button onclick="mostrarVista('vistaAcceso')">← Volver al inicio</button>
+        </div>
+    </div>
+</section>
+
+<section id="vistaAdmin" class="vista">
+    <div class="contenedor-admin">
+        <div class="admin-header glass">
+            <div class="admin-titulo">PANEL DE CONTROL<small>Sistema de Pronósticos v6</small></div>
+            <button class="btn btn-secondary btn-sm" onclick="cerrarSesionAdmin()">🚪 Cerrar Sesión</button>
+        </div>
+        <div class="admin-tabs">
+            <button class="tab-btn activa" data-tab="tabCarreras">🏇 Carreras</button>
+            <button class="tab-btn" data-tab="tabResultados">🏁 Resultados</button>
+            <button class="tab-btn" data-tab="tabEditar">✏️ Editar</button>
+            <button class="tab-btn" data-tab="tabCobranza">💰 Cobranza</button>
+            <button class="tab-btn" data-tab="tabPDF">📄 PDF</button>
+        </div>
+        <div class="admin-panel glass">
+            <div class="tab-contenido activo" id="tabCarreras">
+                <h2 class="seccion-titulo">Programación y Retiros</h2>
+                <div class="widget-estado glass-strong">
+                    <div class="widget-estado-info">
+                        <div class="widget-estado-indicador" id="widgetIndicador"></div>
+                        <div class="widget-estado-texto">
+                            <strong id="widgetTexto">TAQUILLA ABIERTA</strong>
+                            <span id="widgetSubtexto">Los jugadores pueden enviar sus jugadas</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-sm" id="btnToggleTaquilla" onclick="toggleTaquilla()">🔒 Cerrar Jugadas</button>
+                </div>
+                <div class="config-monto glass-strong">
+                    <div>
+                        <label>Monto Fijo de la Jornada</label>
+                        <div class="premios-preview">Premio completo: <strong id="previewCompleto">$0</strong> • Medio premio: <strong id="previewMedio">$0</strong></div>
+                    </div>
+                    <div class="config-monto-input">
+                        <span>$</span>
+                        <input type="number" id="inputMonto" min="1" value="10">
+                        <button class="btn btn-primary btn-sm" onclick="guardarMonto()">Guardar</button>
+                    </div>
+                </div>
+                <div class="grid-carreras-admin" id="gridCarrerasAdmin"></div>
+            </div>
+            <div class="tab-contenido" id="tabResultados">
+                <h2 class="seccion-titulo">Carga de Resultados Oficiales</h2>
+                <p style="color: var(--gris-claro); font-size: 13px; margin-bottom: 20px;">Ingresa los números de los ejemplares ganadores. Para empates, separa con comas (ej: "3,5").</p>
+                <div class="grid-carreras-admin" id="gridResultadosAdmin"></div>
+            </div>
+            <div class="tab-contenido" id="tabEditar">
+                <h2 class="seccion-titulo">Gestión de Participantes</h2>
+                <div style="overflow-x: auto;">
+                    <table class="tabla-participantes" id="tablaParticipantes">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nombre</th>
+                                <th>Seleccionó</th>
+                                <th>Fecha</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodyParticipantes"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="tab-contenido" id="tabCobranza">
+                <h2 class="seccion-titulo">Cobranza de Premios</h2>
+                <div class="resumen-financiero" id="resumenFinanciero"></div>
+                <div style="overflow-x: auto;">
+                    <table class="tabla-participantes" id="tablaCobranza">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nombre</th>
+                                <th>Tipo</th>
+                                <th>Monto</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodyCobranza"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="tab-contenido" id="tabPDF">
+                <h2 class="seccion-titulo">Reporte General PDF</h2>
+                <p style="color: var(--gris-claro); font-size: 13px; margin-bottom: 20px;">Genera el reporte consolidado de todos los participantes.</p>
+                <button class="btn btn-primary" onclick="generarPDF()">📄 Generar PDF del Reporte</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="modal-overlay" id="modalConfirmacion">
+    <div class="modal-contenido glass">
+        <h2 class="modal-titulo">🎯 CONFIRMA TU JUGADA</h2>
+        <div class="resumen-jugada" id="resumenJugada"></div>
+        <div class="advertencia">⚠️ Una vez enviada, tu jugada no podrá ser modificada.</div>
+        <div class="modal-botones">
+            <button class="btn btn-secondary" onclick="cerrarModal('modalConfirmacion')">← Revisar</button>
+            <button class="btn btn-primary" onclick="confirmarEnvio()">✓ Confirmar</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modalExito">
+    <div class="modal-contenido glass notificacion-exito">
+        <div class="icono-grande">✅</div>
+        <h2>¡JUGADA REGISTRADA!</h2>
+        <p id="textoExito">Tu jugada ha sido confirmada exitosamente.</p>
+        <div class="modal-botones" style="flex-direction: column;">
+            <button class="btn btn-primary" onclick="copiarLogJugador()">📋 Copiar Comprobante</button>
+            <button class="btn btn-secondary" onclick="volverAlInicio()">← Volver al Inicio</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modalLog">
+    <div class="modal-contenido glass" style="max-width: 600px;">
+        <h2 class="modal-titulo">📋 LOG DE JUGADA</h2>
+        <div class="log-contenido" id="logContenido"></div>
+        <div class="modal-botones">
+            <button class="btn btn-secondary" onclick="cerrarModal('modalLog')">Cerrar</button>
+            <button class="btn btn-primary" onclick="copiarLogActual()">📋 Copiar</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modalEditar">
+    <div class="modal-contenido glass" style="max-width: 700px;">
+        <h2 class="modal-titulo">️ EDITAR JUGADA</h2>
+        <div id="contenidoEditar"></div>
+        <div class="modal-botones" style="margin-top: 20px;">
+            <button class="btn btn-secondary" onclick="cerrarModal('modalEditar')">Cancelar</button>
+            <button class="btn btn-primary" onclick="guardarEdicion()">💾 Guardar Cambios</button>
+        </div>
+    </div>
+</div>
 
 <script>
     // ========================================
@@ -303,7 +512,7 @@
                 estado.config = { estadoEvento: 'abierto', montoFijo: 10 };
             }
         } catch (error) {
-            console.error('❌ Error cargando config:', error);
+            console.error(' Error cargando config:', error);
         }
     }
 
@@ -439,20 +648,18 @@
         document.querySelectorAll('.vista').forEach(v => v.classList.remove('activa'));
         document.getElementById(id).classList.add('activa');
         
-        // Scroll automático suave
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
+        // Scroll automático suave al inicio
+        setTimeout(() => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }, 50);
         
         if (id === 'vistaAcceso') {
             escucharConfig(actualizarEstadoAcceso);
         } else if (id === 'vistaSeleccion') {
             escucharCarreras(renderizarCarrerasSeleccion);
-            // Forzar scroll al inicio después de un pequeño delay
-            setTimeout(() => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }, 100);
         } else if (id === 'vistaPublica') {
             escucharConfig(() => {});
             escucharTickets(renderizarPantallaPublica);
@@ -460,13 +667,6 @@
             escucharConfig(renderizarAdmin);
             escucharCarreras(renderizarAdmin);
             escucharTickets(renderizarAdmin);
-            setTimeout(() => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }, 100);
-        } else if (id === 'vistaAdminLogin') {
-            setTimeout(() => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }, 100);
         }
     }
 
@@ -746,7 +946,7 @@
             console.log('✅ Copiado al portapapeles');
             return true;
         } catch (err) {
-            console.error('❌ Error con clipboard API:', err);
+            console.error(' Error con clipboard API:', err);
             
             // Fallback para navegadores que no soportan clipboard API
             const ta = document.createElement('textarea');
@@ -1097,7 +1297,7 @@
                     <div class="acciones-fila">
                         <button class="btn btn-secondary btn-sm" onclick="editarTicket('${ticket.id}')">✏️</button>
                         <button class="btn btn-secondary btn-sm" onclick="verLogTicket('${ticket.id}')">📋</button>
-                        <button class="btn btn-danger btn-sm" onclick="eliminarTicket('${ticket.id}')">🗑️</button>
+                        <button class="btn btn-danger btn-sm" onclick="eliminarTicket('${ticket.id}')">️</button>
                     </div>
                 </td>
             `;
@@ -1159,7 +1359,7 @@
         if (!nuevoNombre) { alert('El nombre no puede estar vacío'); return; }
         
         const duplicado = estado.tickets.find(t => t.id !== ticketEnEdicion.id && t.nombre === nuevoNombre);
-        if (duplicado) { alert('⚠️ Ya existe un ticket con ese nombre'); return; }
+        if (duplicado) { alert('️ Ya existe un ticket con ese nombre'); return; }
         
         ticketEnEdicion.nombre = nuevoNombre;
         ticketEnEdicion.selecciones.forEach((sel, idx) => {
@@ -1358,7 +1558,7 @@
             escucharConfig(actualizarEstadoAcceso);
             console.log('✅ Sistema completamente inicializado');
         } catch (error) {
-            console.error('❌ Error en inicialización:', error);
+            console.error(' Error en inicialización:', error);
         }
     }
 
