@@ -12,7 +12,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
     
-    <!-- Firebase v8 (compat) - Funciona sin servidor -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
     
@@ -214,6 +213,28 @@
         .badge-pendiente { background: rgba(239,68,68,0.2); color: #fca5a5; }
         .log-contenido { background: rgba(0,0,0,0.4); padding: 20px; border-radius: 10px; font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.6; white-space: pre-wrap; max-height: 400px; overflow-y: auto; margin-bottom: 20px; border: 1px solid var(--glass-border); }
         
+        /* Panel de diagnóstico */
+        .panel-diagnostico {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.8);
+            color: #0f0;
+            padding: 10px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 11px;
+            max-width: 400px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 9999;
+            border: 1px solid #0f0;
+            display: none;
+        }
+        .panel-diagnostico.activo { display: block; }
+        .panel-diagnostico .error { color: #f55; }
+        .panel-diagnostico .ok { color: #0f0; }
+        
         @media (max-width: 640px) {
             .barra-superior { flex-direction: column; align-items: stretch; }
             .grid-carreras { grid-template-columns: 1fr; }
@@ -226,6 +247,9 @@
     </style>
 </head>
 <body>
+
+<!-- Panel de diagnóstico (visible solo si hay errores) -->
+<div class="panel-diagnostico" id="panelDiagnostico"></div>
 
 <section id="vistaAcceso" class="vista activa">
     <div class="contenedor-acceso glass">
@@ -266,7 +290,7 @@
                     <div class="contador-progreso">Carreras completadas: <strong id="contadorProgreso">0</strong> de 6</div>
                 </div>
             </div>
-            <button class="btn-salir" onclick="salirSeleccion()"><think> Salir</button>
+            <button class="btn-salir" onclick="salirSeleccion()">✕ Salir</button>
         </div>
         <div class="grid-carreras" id="gridCarreras"></div>
         <div class="barra-enviar glass">
@@ -388,7 +412,7 @@
             </div>
             <div class="tab-contenido" id="tabPDF">
                 <h2 class="seccion-titulo">Reporte General PDF</h2>
-                <p style="color: var(--gris-claro); font-size: 13px; margin-bottom: 20px;">Genera el reporte consolidado de todos los participantes con sus aciertos/fallos.</p>
+                <p style="color: var(--gris-claro); font-size: 13px; margin-bottom: 20px;">Genera el reporte consolidado de todos los participantes.</p>
                 <button class="btn btn-primary" onclick="generarPDF()">📄 Generar PDF del Reporte</button>
             </div>
         </div>
@@ -443,7 +467,28 @@
 
 <script>
     // ========================================
-    // 🔥 FIREBASE v8 (COMPAT) - FUNCIONA SIN SERVIDOR
+    // PANEL DE DIAGNÓSTICO (para ver errores en pantalla)
+    // ========================================
+    function logDiagnostico(mensaje, tipo = 'ok') {
+        const panel = document.getElementById('panelDiagnostico');
+        const linea = document.createElement('div');
+        linea.className = tipo;
+        linea.textContent = `[${new Date().toLocaleTimeString()}] ${mensaje}`;
+        panel.appendChild(linea);
+        panel.classList.add('activo');
+        panel.scrollTop = panel.scrollHeight;
+        console.log(mensaje);
+    }
+
+    window.onerror = function(msg, url, lineNo, columnNo, error) {
+        logDiagnostico('ERROR: ' + msg + ' (línea ' + lineNo + ')', 'error');
+        return false;
+    };
+
+    logDiagnostico('Iniciando sistema...', 'ok');
+
+    // ========================================
+    // 🔥 FIREBASE
     // ========================================
     const firebaseConfig = {
         apiKey: "AIzaSyA6g20fMtuSQQ3H2n4ZpZg80qhcf5TgsvI",
@@ -454,10 +499,14 @@
         appId: "1:710231694556:web:0cab9c362ba8703af06819"
     };
 
-    // Inicializar Firebase
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+    try {
+        firebase.initializeApp(firebaseConfig);
+        logDiagnostico('✅ Firebase inicializado', 'ok');
+    } catch (error) {
+        logDiagnostico('❌ Error inicializando Firebase: ' + error.message, 'error');
+    }
 
+    const db = firebase.firestore();
     const ADMIN_PASSWORD = 'admin123';
     
     let estado = {
@@ -474,13 +523,19 @@
     // FUNCIONES FIREBASE
     // ========================================
     async function cargarConfig() {
-        const docRef = db.collection("config").doc("global");
-        const docSnap = await docRef.get();
-        if (docSnap.exists) {
-            estado.config = docSnap.data();
-        } else {
-            await docRef.set({ estadoEvento: 'abierto', montoFijo: 10 });
-            estado.config = { estadoEvento: 'abierto', montoFijo: 10 };
+        try {
+            const docRef = db.collection("config").doc("global");
+            const docSnap = await docRef.get();
+            if (docSnap.exists) {
+                estado.config = docSnap.data();
+                logDiagnostico('✅ Config cargada desde Firebase', 'ok');
+            } else {
+                await docRef.set({ estadoEvento: 'abierto', montoFijo: 10 });
+                estado.config = { estadoEvento: 'abierto', montoFijo: 10 };
+                logDiagnostico('✅ Config creada en Firebase', 'ok');
+            }
+        } catch (error) {
+            logDiagnostico('❌ Error cargando config: ' + error.message, 'error');
         }
     }
 
@@ -490,26 +545,33 @@
                 estado.config = docSnap.data();
                 callback();
             }
+        }, (error) => {
+            logDiagnostico('❌ Error listener config: ' + error.message, 'error');
         });
         listenersActivos.push(unsub);
     }
 
     async function cargarCarreras() {
-        const snapshot = await db.collection("carreras").orderBy("numero").get();
-        estado.carreras = [];
-        snapshot.forEach(docSnap => {
-            estado.carreras.push({ id: docSnap.id, ...docSnap.data() });
-        });
-        
-        if (estado.carreras.length === 0) {
-            for (let i = 1; i <= 6; i++) {
-                await db.collection("carreras").doc(`carrera_${i}`).set({
-                    numero: i,
-                    ejemplares: [],
-                    resultados: { p1: '', p2: '', p3: '' }
-                });
+        try {
+            const snapshot = await db.collection("carreras").orderBy("numero").get();
+            estado.carreras = [];
+            snapshot.forEach(docSnap => {
+                estado.carreras.push({ id: docSnap.id, ...docSnap.data() });
+            });
+            
+            if (estado.carreras.length === 0) {
+                for (let i = 1; i <= 6; i++) {
+                    await db.collection("carreras").doc(`carrera_${i}`).set({
+                        numero: i,
+                        ejemplares: [],
+                        resultados: { p1: '', p2: '', p3: '' }
+                    });
+                }
+                await cargarCarreras();
             }
-            await cargarCarreras();
+            logDiagnostico('✅ Carreras cargadas: ' + estado.carreras.length, 'ok');
+        } catch (error) {
+            logDiagnostico('❌ Error cargando carreras: ' + error.message, 'error');
         }
     }
 
@@ -520,16 +582,23 @@
                 estado.carreras.push({ id: docSnap.id, ...docSnap.data() });
             });
             callback();
+        }, (error) => {
+            logDiagnostico('❌ Error listener carreras: ' + error.message, 'error');
         });
         listenersActivos.push(unsub);
     }
 
     async function cargarTickets() {
-        const snapshot = await db.collection("tickets").orderBy("numero").get();
-        estado.tickets = [];
-        snapshot.forEach(docSnap => {
-            estado.tickets.push({ id: docSnap.id, ...docSnap.data() });
-        });
+        try {
+            const snapshot = await db.collection("tickets").orderBy("numero").get();
+            estado.tickets = [];
+            snapshot.forEach(docSnap => {
+                estado.tickets.push({ id: docSnap.id, ...docSnap.data() });
+            });
+            logDiagnostico('✅ Tickets cargados: ' + estado.tickets.length, 'ok');
+        } catch (error) {
+            logDiagnostico('❌ Error cargando tickets: ' + error.message, 'error');
+        }
     }
 
     function escucharTickets(callback) {
@@ -539,6 +608,8 @@
                 estado.tickets.push({ id: docSnap.id, ...docSnap.data() });
             });
             callback();
+        }, (error) => {
+            logDiagnostico('❌ Error listener tickets: ' + error.message, 'error');
         });
         listenersActivos.push(unsub);
     }
@@ -673,6 +744,8 @@
 
     document.getElementById('formularioAcceso').addEventListener('submit', async (e) => {
         e.preventDefault();
+        logDiagnostico('Formulario enviado', 'ok');
+        
         if (estado.config.estadoEvento !== 'abierto') {
             alert('⚠️ Las jugadas para este evento han sido cerradas.');
             return;
@@ -847,8 +920,8 @@
                 `${jugadorActual.nombre} (#${numero.toString().padStart(2,'0')}), tu jugada ha sido confirmada.`;
             document.getElementById('modalExito').classList.add('activo');
         } catch (error) {
-            console.error('Error al crear ticket:', error);
-            alert('❌ Error al registrar la jugada. Intenta nuevamente.');
+            logDiagnostico('❌ Error al crear ticket: ' + error.message, 'error');
+            alert('❌ Error al registrar la jugada: ' + error.message);
         }
     }
 
@@ -902,8 +975,10 @@
     // ========================================
     document.getElementById('formAdminLogin').addEventListener('submit', (e) => {
         e.preventDefault();
+        logDiagnostico('Login admin intentado', 'ok');
         const pass = document.getElementById('passwordAdmin').value;
         if (pass === ADMIN_PASSWORD) {
+            logDiagnostico('✅ Login admin exitoso', 'ok');
             mostrarVista('vistaAdmin');
             renderizarAdmin();
         } else {
@@ -1141,9 +1216,6 @@
         alert('✓ Resultados guardados');
     }
 
-    // ========================================
-    // EVALUACIÓN DE TICKETS
-    // ========================================
     function evaluarTicket(ticket) {
         let aciertos = 0;
         let tieneEmpate = false;
@@ -1190,9 +1262,6 @@
         return { aciertos, esGanador, tipoPremio, montoPagar, detalles };
     }
 
-    // ========================================
-    // ADMIN - PARTICIPANTES
-    // ========================================
     function renderizarParticipantes() {
         const tbody = document.getElementById('tbodyParticipantes');
         if (!tbody) return;
@@ -1302,9 +1371,6 @@
         alert('✓ Cambios guardados');
     }
 
-    // ========================================
-    // ADMIN - COBRANZA
-    // ========================================
     function renderizarCobranza() {
         const resumen = document.getElementById('resumenFinanciero');
         const tbody = document.getElementById('tbodyCobranza');
@@ -1364,9 +1430,6 @@
         await actualizarTicket(id, { estadoCobro: nuevoEstado });
     }
 
-    // ========================================
-    // PANTALLA PÚBLICA
-    // ========================================
     function renderizarPantallaPublica() {
         const lista = document.getElementById('listaJugadasPublica');
         const total = document.getElementById('totalParticipaciones');
@@ -1423,9 +1486,6 @@
         });
     }
 
-    // ========================================
-    // PDF
-    // ========================================
     function generarPDF() {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
@@ -1491,10 +1551,9 @@
             await cargarTickets();
             actualizarEstadoAcceso();
             escucharConfig(actualizarEstadoAcceso);
-            console.log('✅ Firebase conectado correctamente');
+            logDiagnostico('✅ Sistema completamente inicializado', 'ok');
         } catch (error) {
-            console.error('❌ Error al inicializar Firebase:', error);
-            alert('❌ Error al conectar con Firebase. Verifica tu configuración.');
+            logDiagnostico('❌ Error en inicialización: ' + error.message, 'error');
         }
     }
 
