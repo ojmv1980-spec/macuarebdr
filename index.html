@@ -635,22 +635,24 @@
     }
 
     function mostrarVista(id) {
+        console.log('🔀 Cambiando a vista:', id);
+        
         limpiarListeners();
         document.querySelectorAll('.vista').forEach(v => v.classList.remove('activa'));
         document.getElementById(id).classList.add('activa');
         
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
+        setTimeout(() => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            console.log('✅ Scroll realizado para:', id);
+        }, 100);
         
         if (id === 'vistaAcceso') {
             escucharConfig(actualizarEstadoAcceso);
         } else if (id === 'vistaSeleccion') {
             escucharCarreras(renderizarCarrerasSeleccion);
-            setTimeout(() => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }, 100);
         } else if (id === 'vistaPublica') {
             escucharConfig(() => {});
             escucharTickets(renderizarPantallaPublica);
@@ -658,13 +660,10 @@
             escucharConfig(renderizarAdmin);
             escucharCarreras(renderizarAdmin);
             escucharTickets(renderizarAdmin);
-            setTimeout(() => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }, 100);
         } else if (id === 'vistaAdminLogin') {
             setTimeout(() => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-            }, 100);
+            }, 200);
         }
     }
 
@@ -723,7 +722,7 @@
             alert('⚠️ Las jugadas para este evento han sido cerradas.');
             return;
         }
-        const nombre = document.getElementById('nombreJugador').value.trim();
+        const nombre = document.getElementById('nombreJugador').value.trim().toUpperCase();
         if (!nombre) return;
         
         const nombresExistentes = estado.tickets.map(t => t.nombre);
@@ -741,7 +740,7 @@
 
     function iniciarJugador(nombre) {
         jugadorActual = {
-            nombre: nombre,
+            nombre: nombre.toUpperCase(),
             seleccionesTemp: { 1: null, 2: null, 3: null, 4: null, 5: null, 6: null }
         };
         document.getElementById('nombreJugadorSeleccion').textContent = nombre;
@@ -866,7 +865,7 @@
 
     async function confirmarEnvio() {
         const nuevoTicket = {
-            nombre: jugadorActual.nombre,
+            nombre: jugadorActual.nombre.toUpperCase(),
             fecha: new Date().toISOString(),
             selecciones: [],
             estadoCobro: 'pendiente'
@@ -1337,7 +1336,7 @@
 
     async function guardarEdicion() {
         if (!ticketEnEdicion) return;
-        const nuevoNombre = document.getElementById('editNombre').value.trim();
+        const nuevoNombre = document.getElementById('editNombre').value.trim().toUpperCase();
         if (!nuevoNombre) { alert('El nombre no puede estar vacío'); return; }
         
         const duplicado = estado.tickets.find(t => t.id !== ticketEnEdicion.id && t.nombre === nuevoNombre);
@@ -1444,13 +1443,22 @@
             bloque.className = 'bloque-jugada-publica glass';
             
             const seleccionesHTML = ticket.selecciones.map(s => {
-                const detalle = eval_.detalles.find(d => d.carrera === s.carrera);
                 let clase = 'pendiente';
                 let icono = '—';
-                if (detalle) {
-                    if (detalle.acierto) { clase = 'acierto'; icono = '✔️'; }
-                    else { clase = 'fallo'; icono = '❌'; }
+                
+                if (hayResultados) {
+                    const detalle = eval_.detalles.find(d => d.carrera === s.carrera);
+                    if (detalle) {
+                        if (detalle.acierto) { 
+                            clase = 'acierto'; 
+                            icono = '✔️'; 
+                        } else { 
+                            clase = 'fallo'; 
+                            icono = '❌'; 
+                        }
+                    }
                 }
+                
                 return `<div class="chip-seleccion ${clase}"><span class="num">${s.ejemplarAsignado}</span><span class="resultado">${icono}</span></div>`;
             }).join('');
             
@@ -1540,6 +1548,50 @@
             console.error('❌ Error en inicialización:', error);
         }
     }
+
+    // ========================================
+    // CORRECCIÓN DE TABS - Forzar funcionamiento
+    // ========================================
+    document.addEventListener('DOMContentLoaded', () => {
+        console.log('🔧 Inicializando tabs...');
+        
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            const newBtn = btn.cloneNode(true);
+            btn.parentNode.replaceChild(newBtn, btn);
+        });
+        
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const tabId = this.dataset.tab;
+                console.log('🔘 Tab clickeado:', tabId);
+                
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('activa'));
+                document.querySelectorAll('.tab-contenido').forEach(c => c.classList.remove('activa'));
+                
+                this.classList.add('activa');
+                
+                const tabContent = document.getElementById(tabId);
+                if (tabContent) {
+                    tabContent.classList.add('activa');
+                    console.log('✅ Tab activado:', tabId);
+                    
+                    setTimeout(() => {
+                        document.querySelector('.admin-panel').scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'start' 
+                        });
+                    }, 100);
+                } else {
+                    console.error('❌ Tab no encontrado:', tabId);
+                }
+            });
+        });
+        
+        console.log('✅ Tabs inicializados');
+    });
 
     inicializar();
 </script>
