@@ -50,14 +50,11 @@
             padding: 20px;
         }
         
-        #vistaAcceso, #vistaAdminLogin {
+        /* ✅ CORRECCIÓN: Solo se muestra cuando está activa */
+        #vistaAcceso.activa, #vistaAdminLogin.activa {
             display: flex !important;
             justify-content: center;
             align-items: center;
-        }
-        
-        #vistaAcceso.activa, #vistaAdminLogin.activa {
-            display: flex !important;
         }
         
         .vista.activa { display: block; animation: fadeIn 0.5s; }
@@ -270,7 +267,7 @@
                 Puedes usar una de estas opciones:
                 <div class="sugerencias-nombres" id="sugerenciasNombres"></div>
             </div>
-            <button type="submit" class="btn-participar">🎯 Participar</button>
+            <button type="submit" class="btn-participar"> Participar</button>
         </form>
         <div class="acceso-admin">
             <button onclick="mostrarVista('vistaAdminLogin')">🔐 ADMIN</button>
@@ -719,7 +716,7 @@
         console.log('✅ Formulario enviado');
         
         if (estado.config.estadoEvento !== 'abierto') {
-            alert('⚠️ Las jugadas para este evento han sido cerradas.');
+            alert('️ Las jugadas para este evento han sido cerradas.');
             return;
         }
         const nombre = document.getElementById('nombreJugador').value.trim().toUpperCase();
@@ -924,7 +921,7 @@
             alert('✅ Comprobante copiado al portapapeles');
         }).catch((error) => {
             console.error('❌ Error al copiar:', error);
-            alert('❌ Error al copiar. Intenta manualmente:\n\n' + log);
+            alert(' Error al copiar. Intenta manualmente:\n\n' + log);
         });
     }
 
@@ -1276,7 +1273,7 @@
                 <td>${fecha}</td>
                 <td>
                     <div class="acciones-fila">
-                        <button class="btn btn-secondary btn-sm" onclick="editarTicket('${ticket.id}')">✏️</button>
+                        <button class="btn btn-secondary btn-sm" onclick="editarTicket('${ticket.id}')">️</button>
                         <button class="btn btn-secondary btn-sm" onclick="verLogTicket('${ticket.id}')">📋</button>
                         <button class="btn btn-danger btn-sm" onclick="eliminarTicket('${ticket.id}')">🗑️</button>
                     </div>
@@ -1340,7 +1337,7 @@
         if (!nuevoNombre) { alert('El nombre no puede estar vacío'); return; }
         
         const duplicado = estado.tickets.find(t => t.id !== ticketEnEdicion.id && t.nombre === nuevoNombre);
-        if (duplicado) { alert('⚠️ Ya existe un ticket con ese nombre'); return; }
+        if (duplicado) { alert('️ Ya existe un ticket con ese nombre'); return; }
         
         ticketEnEdicion.nombre = nuevoNombre;
         ticketEnEdicion.selecciones.forEach((sel, idx) => {
@@ -1492,7 +1489,7 @@
         doc.setFont('helvetica', 'bold');
         doc.text('REPORTE GENERAL DE PRONÓSTICOS', 148, 15, { align: 'center' });
         
-        const headers = [['Nombre', '1era', '✓/✗', '2da', '✓/✗', '3era', '✓/✗', '4ta', '✓/✗', '5ta', '✓/✗', '6ta', '✓/✗', 'GAN']];
+        const headers = [['Nombre', '1era', '✓/', '2da', '✓/✗', '3era', '✓/✗', '4ta', '✓/✗', '5ta', '✓/✗', '6ta', '✓/✗', 'GAN']];
         const data = [];
         
         const evaluaciones = estado.tickets.map(t => ({ ticket: t, eval: evaluarTicket(t) }));
