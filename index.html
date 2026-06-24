@@ -50,7 +50,6 @@
             padding: 20px;
         }
         
-        /* ✅ CORRECCIÓN: Solo se muestra cuando está activa */
         #vistaAcceso.activa, #vistaAdminLogin.activa {
             display: flex !important;
             justify-content: center;
@@ -233,6 +232,23 @@
         .badge-pendiente { background: rgba(239,68,68,0.2); color: #fca5a5; }
         .log-contenido { background: rgba(0,0,0,0.4); padding: 20px; border-radius: 10px; font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.6; white-space: pre-wrap; max-height: 400px; overflow-y: auto; margin-bottom: 20px; border: 1px solid var(--glass-border); }
         
+        /* Banner de modo admin */
+        .banner-modo-admin {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(90deg, var(--fucsia), var(--morado));
+            color: white;
+            text-align: center;
+            padding: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            z-index: 9999;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
         @media (max-width: 640px) {
             .barra-superior { flex-direction: column; align-items: stretch; }
             .grid-carreras { grid-template-columns: 1fr; }
@@ -245,6 +261,11 @@
     </style>
 </head>
 <body>
+
+<!-- Banner de modo admin (solo visible en ventana admin) -->
+<div class="banner-modo-admin" id="bannerModoAdmin" style="display: none;">
+    🔐 MODO ADMINISTRADOR - VENTANA INDEPENDIENTE
+</div>
 
 <section id="vistaAcceso" class="vista activa">
     <div class="contenedor-acceso glass">
@@ -317,7 +338,7 @@
                 <label class="label-input">Contraseña</label>
                 <input type="password" id="passwordAdmin" class="input-nombre" placeholder="Ingresa la contraseña" required>
             </div>
-            <button type="submit" class="btn-participar">🔓 Ingresar</button>
+            <button type="submit" class="btn-participar"> Ingresar</button>
         </form>
         <div class="acceso-admin">
             <button onclick="mostrarVista('vistaAcceso')">← Volver al inicio</button>
@@ -330,17 +351,16 @@
         <div class="admin-header glass">
             <div class="admin-titulo">PANEL DE CONTROL<small>Sistema de Pronósticos v6</small></div>
             <div style="display: flex; gap: 10px;">
-                <button class="btn btn-primary btn-sm" onclick="mostrarVista('vistaAcceso')">🏠 INICIO</button>
-                <button class="btn btn-secondary btn-sm" onclick="mostrarVista('vistaPublica')">👁️ Ver Jugadas</button>
-                <button class="btn btn-secondary btn-sm" onclick="cerrarSesionAdmin()">🚪 Salir</button>
+                <button class="btn btn-primary btn-sm" onclick="cerrarVentanaAdmin()">🏠 Cerrar Panel</button>
+                <button class="btn btn-secondary btn-sm" onclick="mostrarVista('vistaPublica')">️ Ver Jugadas</button>
             </div>
         </div>
         <div class="admin-tabs">
-            <button class="tab-btn activa" data-tab="tabCarreras">🏇 Carreras</button>
-            <button class="tab-btn" data-tab="tabResultados">🏁 Resultados</button>
+            <button class="tab-btn activa" data-tab="tabCarreras"> Carreras</button>
+            <button class="tab-btn" data-tab="tabResultados"> Resultados</button>
             <button class="tab-btn" data-tab="tabEditar">✏️ Editar</button>
             <button class="tab-btn" data-tab="tabCobranza">💰 Cobranza</button>
-            <button class="tab-btn" data-tab="tabPDF">📄 PDF</button>
+            <button class="tab-btn" data-tab="tabPDF"> PDF</button>
         </div>
         <div class="admin-panel glass">
             <div class="tab-contenido activo" id="tabCarreras">
@@ -451,7 +471,7 @@
         <div class="log-contenido" id="logContenido"></div>
         <div class="modal-botones">
             <button class="btn btn-secondary" onclick="cerrarModal('modalLog')">Cerrar</button>
-            <button class="btn btn-primary" onclick="copiarLogActual()">📋 Copiar</button>
+            <button class="btn btn-primary" onclick="copiarLogActual()"> Copiar</button>
         </div>
     </div>
 </div>
@@ -468,6 +488,16 @@
 </div>
 
 <script>
+    // ========================================
+    // DETECTAR MODO ADMIN (ventana independiente)
+    // ========================================
+    const ES_MODO_ADMIN = window.location.search.includes('modo=admin');
+    
+    if (ES_MODO_ADMIN) {
+        document.getElementById('bannerModoAdmin').style.display = 'block';
+        document.title = '🔐 Panel Admin - Pronósticos';
+    }
+
     const firebaseConfig = {
         apiKey: "AIzaSyA6g20fMtuSQQ3H2n4ZpZg80qhcf5TgsvI",
         authDomain: "macuare-bdr.firebaseapp.com",
@@ -657,6 +687,9 @@
             escucharConfig(renderizarAdmin);
             escucharCarreras(renderizarAdmin);
             escucharTickets(renderizarAdmin);
+            setTimeout(() => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 100);
         } else if (id === 'vistaAdminLogin') {
             setTimeout(() => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -716,7 +749,7 @@
         console.log('✅ Formulario enviado');
         
         if (estado.config.estadoEvento !== 'abierto') {
-            alert('️ Las jugadas para este evento han sido cerradas.');
+            alert('⚠️ Las jugadas para este evento han sido cerradas.');
             return;
         }
         const nombre = document.getElementById('nombreJugador').value.trim().toUpperCase();
@@ -920,8 +953,8 @@
         copiarAlPortapapeles(log).then(() => {
             alert('✅ Comprobante copiado al portapapeles');
         }).catch((error) => {
-            console.error('❌ Error al copiar:', error);
-            alert(' Error al copiar. Intenta manualmente:\n\n' + log);
+            console.error(' Error al copiar:', error);
+            alert('❌ Error al copiar. Intenta manualmente:\n\n' + log);
         });
     }
 
@@ -963,21 +996,54 @@
         mostrarVista('vistaAcceso');
     }
 
+    // ========================================
+    // LOGIN ADMIN - ABRE VENTANA INDEPENDIENTE
+    // ========================================
     document.getElementById('formAdminLogin').addEventListener('submit', (e) => {
         e.preventDefault();
         console.log('✅ Login admin intentado');
         const pass = document.getElementById('passwordAdmin').value;
         if (pass === ADMIN_PASSWORD) {
-            console.log('✅ Login admin exitoso');
-            mostrarVista('vistaAdmin');
-            renderizarAdmin();
+            console.log('✅ Login admin exitoso - Abriendo ventana independiente');
+            
+            // Abrir el mismo archivo pero con parámetro modo=admin
+            const urlActual = window.location.href.split('?')[0];
+            const urlAdmin = urlActual + '?modo=admin';
+            
+            const adminWindow = window.open(
+                urlAdmin, 
+                '_blank', 
+                'width=1400,height=900,resizable=yes,scrollbars=yes,menubar=yes'
+            );
+            
+            if (adminWindow) {
+                // Cerrar la ventana de login
+                window.close();
+            } else {
+                alert('⚠️ Por favor permite las ventanas emergentes para abrir el Panel Admin.');
+            }
         } else {
             alert('❌ Contraseña incorrecta');
         }
     });
 
+    // ========================================
+    // CERRAR VENTANA ADMIN
+    // ========================================
+    function cerrarVentanaAdmin() {
+        if (ES_MODO_ADMIN) {
+            window.close();
+        } else {
+            mostrarVista('vistaAcceso');
+        }
+    }
+
     function cerrarSesionAdmin() {
-        mostrarVista('vistaAcceso');
+        if (ES_MODO_ADMIN) {
+            window.close();
+        } else {
+            mostrarVista('vistaAcceso');
+        }
     }
 
     document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -1273,7 +1339,7 @@
                 <td>${fecha}</td>
                 <td>
                     <div class="acciones-fila">
-                        <button class="btn btn-secondary btn-sm" onclick="editarTicket('${ticket.id}')">️</button>
+                        <button class="btn btn-secondary btn-sm" onclick="editarTicket('${ticket.id}')">✏️</button>
                         <button class="btn btn-secondary btn-sm" onclick="verLogTicket('${ticket.id}')">📋</button>
                         <button class="btn btn-danger btn-sm" onclick="eliminarTicket('${ticket.id}')">🗑️</button>
                     </div>
@@ -1337,7 +1403,7 @@
         if (!nuevoNombre) { alert('El nombre no puede estar vacío'); return; }
         
         const duplicado = estado.tickets.find(t => t.id !== ticketEnEdicion.id && t.nombre === nuevoNombre);
-        if (duplicado) { alert('️ Ya existe un ticket con ese nombre'); return; }
+        if (duplicado) { alert('⚠️ Ya existe un ticket con ese nombre'); return; }
         
         ticketEnEdicion.nombre = nuevoNombre;
         ticketEnEdicion.selecciones.forEach((sel, idx) => {
@@ -1489,7 +1555,7 @@
         doc.setFont('helvetica', 'bold');
         doc.text('REPORTE GENERAL DE PRONÓSTICOS', 148, 15, { align: 'center' });
         
-        const headers = [['Nombre', '1era', '✓/', '2da', '✓/✗', '3era', '✓/✗', '4ta', '✓/✗', '5ta', '✓/✗', '6ta', '✓/✗', 'GAN']];
+        const headers = [['Nombre', '1era', '✓/✗', '2da', '✓/✗', '3era', '✓/✗', '4ta', '✓/✗', '5ta', '✓/✗', '6ta', '✓/✗', 'GAN']];
         const data = [];
         
         const evaluaciones = estado.tickets.map(t => ({ ticket: t, eval: evaluarTicket(t) }));
@@ -1538,8 +1604,17 @@
             await cargarConfig();
             await cargarCarreras();
             await cargarTickets();
-            actualizarEstadoAcceso();
-            escucharConfig(actualizarEstadoAcceso);
+            
+            // Si es modo admin, mostrar directamente el panel
+            if (ES_MODO_ADMIN) {
+                console.log('🔐 Iniciando en MODO ADMIN');
+                mostrarVista('vistaAdmin');
+                renderizarAdmin();
+            } else {
+                actualizarEstadoAcceso();
+                escucharConfig(actualizarEstadoAcceso);
+            }
+            
             console.log('✅ Sistema completamente inicializado');
         } catch (error) {
             console.error('❌ Error en inicialización:', error);
@@ -1550,7 +1625,7 @@
     // CORRECCIÓN DE TABS - Forzar funcionamiento
     // ========================================
     document.addEventListener('DOMContentLoaded', () => {
-        console.log('🔧 Inicializando tabs...');
+        console.log(' Inicializando tabs...');
         
         document.querySelectorAll('.tab-btn').forEach(btn => {
             const newBtn = btn.cloneNode(true);
