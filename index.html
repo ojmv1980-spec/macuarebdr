@@ -42,25 +42,9 @@
         }
         @keyframes fondoAnimado { 0%, 100% { transform: translate(0,0); } 50% { transform: translate(-2%,-2%); } }
         
-        .vista {
-            display: none;
-            position: relative;
-            z-index: 1;
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .vista.activa { 
-            display: block; 
-            animation: fadeIn 0.5s; 
-        }
-        
-        #vistaAcceso.activa, #vistaAdminLogin.activa {
-            display: flex !important;
-            justify-content: center;
-            align-items: center;
-        }
-        
+        .vista { display: none; position: relative; z-index: 1; min-height: 100vh; padding: 20px; }
+        .vista.activa { display: block; animation: fadeIn 0.5s; }
+        #vistaAcceso.activa, #vistaAdminLogin.activa { display: flex !important; justify-content: center; align-items: center; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         
         .glass { background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid var(--glass-border); border-radius: 20px; box-shadow: var(--glass-shadow); }
@@ -76,14 +60,7 @@
         .btn-success { background: linear-gradient(135deg, var(--verde), #047857); }
         .btn-sm { padding: 8px 14px; font-size: 11px; }
         
-        #vistaAcceso { display: flex; justify-content: center; align-items: center; padding: 20px; }
         .contenedor-acceso { width: 100%; max-width: 480px; padding: 50px 40px; position: relative; }
-        
-        #vistaAdminLogin .contenedor-acceso {
-            max-width: 400px;
-            margin: 0 auto;
-        }
-        
         .encabezado { text-align: center; margin-bottom: 40px; }
         .icono-caballo { font-size: 64px; margin-bottom: 16px; display: inline-block; animation: flotar 3s ease-in-out infinite; filter: drop-shadow(0 4px 12px rgba(217,70,239,0.5)); }
         @keyframes flotar { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
@@ -92,8 +69,8 @@
         .formulario-acceso { display: flex; flex-direction: column; gap: 20px; }
         .grupo-input { display: flex; flex-direction: column; gap: 10px; }
         .label-input { color: var(--blanco); font-size: 13px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; padding-left: 4px; }
-        .input-nombre { width: 100%; padding: 16px 20px; background: rgba(255,255,255,0.05); border: 2px solid var(--glass-border); border-radius: 12px; color: var(--blanco); font-family: 'Montserrat'; font-size: 16px; outline: none; transition: all 0.3s; }
-        .input-nombre::placeholder { color: rgba(255,255,255,0.4); }
+        .input-nombre { width: 100%; padding: 16px 20px; background: rgba(255,255,255,0.05); border: 2px solid var(--glass-border); border-radius: 12px; color: var(--blanco); font-family: 'Montserrat'; font-size: 16px; outline: none; transition: all 0.3s; text-transform: uppercase; }
+        .input-nombre::placeholder { color: rgba(255,255,255,0.4); text-transform: none; }
         .input-nombre:focus { border-color: var(--fucsia); background: rgba(255,255,255,0.1); box-shadow: 0 0 0 4px rgba(217,70,239,0.15); }
         .btn-participar { width: 100%; padding: 18px; margin-top: 10px; background: linear-gradient(135deg, var(--fucsia), var(--morado)); border: none; border-radius: 12px; color: var(--blanco); font-family: 'Montserrat'; font-size: 16px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 20px rgba(217,70,239,0.4); }
         .btn-participar:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(217,70,239,0.6); }
@@ -166,11 +143,11 @@
         .banner-publica .stats strong { color: var(--fucsia-claro); font-size: 18px; }
         .lista-jugadas-publica { display: flex; flex-direction: column; gap: 14px; }
         .bloque-jugada-publica { padding: 18px 22px; display: flex; gap: 20px; align-items: center; transition: all 0.5s; position: relative; }
-        .numero-jugada { font-family: 'Orbitron'; font-size: 32px; font-weight: 900; color: var(--fucsia-claro); min-width: 60px; text-align: center; position: relative; }
-        .corazon-titilante { position: absolute; top: -8px; right: -8px; font-size: 18px; animation: latido 1s ease-in-out infinite; filter: drop-shadow(0 0 6px rgba(239,68,68,0.8)); }
-        @keyframes latido { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.3); } }
+        .numero-jugada { font-family: 'Orbitron'; font-size: 32px; font-weight: 900; color: var(--fucsia-claro); min-width: 60px; text-align: center; }
         .info-jugada-publica { flex: 1; min-width: 0; }
-        .nombre-jugada-publica { font-size: 16px; font-weight: 700; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .nombre-jugada-publica { font-size: 16px; font-weight: 700; margin-bottom: 8px; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px; }
+        .corazon-titilante { font-size: 14px; animation: latido 1s ease-in-out infinite; }
+        @keyframes latido { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
         .selecciones-jugada { display: flex; flex-wrap: wrap; gap: 8px; }
         .chip-seleccion { display: flex; align-items: center; gap: 6px; padding: 6px 10px; background: rgba(0,0,0,0.3); border-radius: 8px; font-size: 13px; font-weight: 600; }
         .chip-seleccion .num { color: var(--blanco); }
@@ -189,7 +166,7 @@
         .admin-panel { padding: 28px; }
         .tab-contenido { display: none; }
         .tab-contenido.activo { display: block; animation: fadeIn 0.4s; }
-        .seccion-titulo { font-family: 'Orbitron'; font-size: 18px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--glass-border); letter-spacing: 1px; }
+        .seccion-titulo { font-family: 'Orbitron'; font-size: 18px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--glass-border); letter-spacing: 1px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
         .widget-estado, .config-monto { padding: 20px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
         .widget-estado-info { display: flex; align-items: center; gap: 14px; }
         .widget-estado-indicador { width: 14px; height: 14px; border-radius: 50%; background: var(--verde); animation: parpadeo 2s infinite; }
@@ -211,7 +188,6 @@
         .btn-ejemplar-admin { aspect-ratio: 1; background: rgba(255,255,255,0.08); border: 2px solid var(--glass-border); border-radius: 10px; color: var(--blanco); font-family: 'Orbitron'; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; position: relative; }
         .btn-ejemplar-admin:hover { border-color: var(--fucsia); }
         .btn-ejemplar-admin.retirado { background: linear-gradient(135deg, #dc2626, #7f1d1d); border-color: #ef4444; }
-        .btn-ejemplar-admin.retirado::after { content: '✕'; position: absolute; font-size: 20px; color: var(--blanco); }
         .form-resultados { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--glass-border); }
         .fila-resultado { display: flex; align-items: center; gap: 10px; }
         .fila-resultado label { min-width: 90px; font-size: 12px; font-weight: 600; color: var(--gris-claro); letter-spacing: 1px; }
@@ -235,6 +211,8 @@
         .badge-pagado { background: rgba(16,185,129,0.2); color: #6ee7b7; }
         .badge-pendiente { background: rgba(239,68,68,0.2); color: #fca5a5; }
         .log-contenido { background: rgba(0,0,0,0.4); padding: 20px; border-radius: 10px; font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.6; white-space: pre-wrap; max-height: 400px; overflow-y: auto; margin-bottom: 20px; border: 1px solid var(--glass-border); }
+        .buscador-input { width: 100%; max-width: 300px; padding: 10px 16px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 10px; color: var(--blanco); font-size: 14px; outline: none; }
+        .buscador-input:focus { border-color: var(--fucsia); }
         
         @media (max-width: 640px) {
             .barra-superior { flex-direction: column; align-items: stretch; }
@@ -266,14 +244,34 @@
                 <input type="text" id="nombreJugador" class="input-nombre" placeholder="Ingresa tu nombre para participar" maxlength="30" required>
             </div>
             <div class="mensaje-sugerencia" id="mensajeSugerencia">
-                <strong>️ Este nombre ya está participando.</strong><br>
+                <strong>⚠️ Este nombre ya está participando.</strong><br>
                 Puedes usar una de estas opciones:
                 <div class="sugerencias-nombres" id="sugerenciasNombres"></div>
             </div>
             <button type="submit" class="btn-participar">🎯 Participar</button>
         </form>
         <div class="acceso-admin">
-            <button onclick="mostrarVista('vistaAdminLogin')">🔐 ADMIN</button>
+            <button onclick="mostrarVista('vistaAdminLogin')"> ADMIN</button>
+        </div>
+    </div>
+</section>
+
+<section id="vistaAdminLogin" class="vista">
+    <div class="contenedor-acceso glass">
+        <header class="encabezado">
+            <div class="icono-caballo">🔐</div>
+            <h1 class="titulo-principal">ADMIN</h1>
+            <p class="subtitulo">Panel de Control</p>
+        </header>
+        <form class="formulario-acceso" id="formAdminLogin" autocomplete="off">
+            <div class="grupo-input">
+                <label class="label-input">Contraseña</label>
+                <input type="password" id="passwordAdmin" class="input-nombre" placeholder="Ingresa la contraseña" required>
+            </div>
+            <button type="submit" class="btn-participar">🔓 Ingresar</button>
+        </form>
+        <div class="acceso-admin">
+            <button onclick="mostrarVista('vistaAcceso')">← VOLVER AL INICIO</button>
         </div>
     </div>
 </section>
@@ -293,7 +291,7 @@
         <div class="grid-carreras" id="gridCarreras"></div>
         <div class="barra-enviar glass">
             <div class="mensaje-enviar" id="mensajeEnviar">Completa las <strong>6 carreras</strong> para habilitar el envío</div>
-            <button class="btn btn-primary btn-enviar" id="btnEnviar" disabled onclick="abrirModalConfirmacion()"> Enviar Jugada</button>
+            <button class="btn btn-primary btn-enviar" id="btnEnviar" disabled onclick="abrirModalConfirmacion()">📨 Enviar Jugada</button>
         </div>
     </div>
 </section>
@@ -308,32 +306,12 @@
     </div>
 </section>
 
-<section id="vistaAdminLogin" class="vista">
-    <div class="contenedor-acceso glass">
-        <header class="encabezado">
-            <div class="icono-caballo">🔐</div>
-            <h1 class="titulo-principal">ADMIN</h1>
-            <p class="subtitulo">Panel de Control</p>
-        </header>
-        <form class="formulario-acceso" id="formAdminLogin" autocomplete="off">
-            <div class="grupo-input">
-                <label class="label-input">Contraseña</label>
-                <input type="password" id="passwordAdmin" class="input-nombre" placeholder="Ingresa la contraseña" required>
-            </div>
-            <button type="submit" class="btn-participar">🔓 Ingresar</button>
-        </form>
-        <div class="acceso-admin">
-            <button onclick="mostrarVista('vistaAcceso')">← Volver al inicio</button>
-        </div>
-    </div>
-</section>
-
 <section id="vistaAdmin" class="vista">
     <div class="contenedor-admin">
         <div class="admin-header glass">
             <div class="admin-titulo">PANEL DE CONTROL<small>Sistema de Pronósticos v6</small></div>
             <div style="display: flex; gap: 10px;">
-                <button class="btn btn-primary btn-sm" onclick="cerrarSesionAdmin()"> Volver al Inicio</button>
+                <button class="btn btn-primary btn-sm" onclick="volverAlInicioDesdeAdmin()">🏠 INICIO</button>
                 <button class="btn btn-secondary btn-sm" onclick="mostrarVista('vistaPublica')">👁️ Ver Jugadas</button>
             </div>
         </div>
@@ -356,17 +334,16 @@
                         </div>
                     </div>
                     <div style="display: flex; gap: 10px;">
-                        <button class="btn btn-secondary btn-sm" onclick="mostrarVista('vistaPublica')">👁️ Ver Jugadas</button>
                         <button class="btn btn-primary btn-sm" id="btnToggleTaquilla" onclick="toggleTaquilla()">🔒 Cerrar Taquilla</button>
                     </div>
                 </div>
                 <div class="config-monto glass-strong">
                     <div>
                         <label>Monto Fijo de la Jornada</label>
-                        <div class="premios-preview">Premio completo: <strong id="previewCompleto">$0</strong> • Medio premio: <strong id="previewMedio">$0</strong></div>
+                        <div class="premios-preview">Premio completo: <strong id="previewCompleto">Bs. 0</strong> • Medio premio: <strong id="previewMedio">Bs. 0</strong></div>
                     </div>
                     <div class="config-monto-input">
-                        <span>$</span>
+                        <span>Bs.</span>
                         <input type="number" id="inputMonto" min="1" value="10">
                         <button class="btn btn-primary btn-sm" onclick="guardarMonto()">Guardar</button>
                     </div>
@@ -379,7 +356,13 @@
                 <div class="grid-carreras-admin" id="gridResultadosAdmin"></div>
             </div>
             <div class="tab-contenido" id="tabEditar">
-                <h2 class="seccion-titulo">Gestión de Participantes</h2>
+                <h2 class="seccion-titulo">
+                    Gestión de Participantes
+                    <input type="text" id="buscadorParticipantes" class="buscador-input" placeholder="🔍 Buscar por nombre...">
+                </h2>
+                <div style="margin-bottom: 20px; display: flex; justify-content: flex-end;">
+                    <button class="btn btn-success btn-sm" onclick="copiarTodasLasJugadas()">📋 Copiar Todas (WhatsApp)</button>
+                </div>
                 <div style="overflow-x: auto;">
                     <table class="tabla-participantes" id="tablaParticipantes">
                         <thead>
@@ -415,7 +398,7 @@
                 </div>
             </div>
             <div class="tab-contenido" id="tabPDF">
-                <h2 class="seccion-titulo">Reporte General PDF</h2>
+                <h2 class="seccion-titulo">Reporte General</h2>
                 <p style="color: var(--gris-claro); font-size: 13px; margin-bottom: 20px;">Genera el reporte consolidado de todos los participantes.</p>
                 <button class="btn btn-primary" onclick="generarPDF()">📄 Generar PDF del Reporte</button>
             </div>
@@ -449,7 +432,7 @@
 
 <div class="modal-overlay" id="modalLog">
     <div class="modal-contenido glass" style="max-width: 600px;">
-        <h2 class="modal-titulo"> LOG DE JUGADA</h2>
+        <h2 class="modal-titulo">📋 LOG DE JUGADA</h2>
         <div class="log-contenido" id="logContenido"></div>
         <div class="modal-botones">
             <button class="btn btn-secondary" onclick="cerrarModal('modalLog')">Cerrar</button>
@@ -464,7 +447,7 @@
         <div id="contenidoEditar"></div>
         <div class="modal-botones" style="margin-top: 20px;">
             <button class="btn btn-secondary" onclick="cerrarModal('modalEditar')">Cancelar</button>
-            <button class="btn btn-primary" onclick="guardarEdicion()"> Guardar Cambios</button>
+            <button class="btn btn-primary" onclick="guardarEdicion()">💾 Guardar Cambios</button>
         </div>
     </div>
 </div>
@@ -499,14 +482,11 @@
             const docSnap = await docRef.get();
             if (docSnap.exists) {
                 estado.config = docSnap.data();
-                console.log('✅ Config cargada');
             } else {
                 await docRef.set({ estadoEvento: 'abierto', montoFijo: 10 });
                 estado.config = { estadoEvento: 'abierto', montoFijo: 10 };
             }
-        } catch (error) {
-            console.error('❌ Error cargando config:', error);
-        }
+        } catch (error) { console.error('Error config:', error); }
     }
 
     function escucharConfig(callback) {
@@ -523,32 +503,20 @@
         try {
             const snapshot = await db.collection("carreras").orderBy("numero").get();
             estado.carreras = [];
-            snapshot.forEach(docSnap => {
-                estado.carreras.push({ id: docSnap.id, ...docSnap.data() });
-            });
-            
+            snapshot.forEach(docSnap => { estado.carreras.push({ id: docSnap.id, ...docSnap.data() }); });
             if (estado.carreras.length === 0) {
                 for (let i = 1; i <= 6; i++) {
-                    await db.collection("carreras").doc(`carrera_${i}`).set({
-                        numero: i,
-                        ejemplares: [],
-                        resultados: { p1: '', p2: '', p3: '' }
-                    });
+                    await db.collection("carreras").doc(`carrera_${i}`).set({ numero: i, ejemplares: [], resultados: { p1: '', p2: '', p3: '' } });
                 }
                 await cargarCarreras();
             }
-            console.log('✅ Carreras cargadas:', estado.carreras.length);
-        } catch (error) {
-            console.error('❌ Error cargando carreras:', error);
-        }
+        } catch (error) { console.error('Error carreras:', error); }
     }
 
     function escucharCarreras(callback) {
         const unsub = db.collection("carreras").orderBy("numero").onSnapshot((snapshot) => {
             estado.carreras = [];
-            snapshot.forEach(docSnap => {
-                estado.carreras.push({ id: docSnap.id, ...docSnap.data() });
-            });
+            snapshot.forEach(docSnap => { estado.carreras.push({ id: docSnap.id, ...docSnap.data() }); });
             callback();
         });
         listenersActivos.push(unsub);
@@ -558,129 +526,66 @@
         try {
             const snapshot = await db.collection("tickets").orderBy("numero").get();
             estado.tickets = [];
-            snapshot.forEach(docSnap => {
-                estado.tickets.push({ id: docSnap.id, ...docSnap.data() });
-            });
-            console.log('✅ Tickets cargados:', estado.tickets.length);
-        } catch (error) {
-            console.error(' Error cargando tickets:', error);
-        }
+            snapshot.forEach(docSnap => { estado.tickets.push({ id: docSnap.id, ...docSnap.data() }); });
+        } catch (error) { console.error('Error tickets:', error); }
     }
 
     function escucharTickets(callback) {
         const unsub = db.collection("tickets").orderBy("numero").onSnapshot((snapshot) => {
             estado.tickets = [];
-            snapshot.forEach(docSnap => {
-                estado.tickets.push({ id: docSnap.id, ...docSnap.data() });
-            });
+            snapshot.forEach(docSnap => { estado.tickets.push({ id: docSnap.id, ...docSnap.data() }); });
             callback();
         });
         listenersActivos.push(unsub);
     }
 
-    async function actualizarConfig(nuevaConfig) {
-        await db.collection("config").doc("global").update(nuevaConfig);
-    }
-
-    async function actualizarCarrera(carreraId, datos) {
-        await db.collection("carreras").doc(carreraId).update(datos);
-    }
+    async function actualizarConfig(nuevaConfig) { await db.collection("config").doc("global").update(nuevaConfig); }
+    async function actualizarCarrera(carreraId, datos) { await db.collection("carreras").doc(carreraId).update(datos); }
 
     async function crearTicketConNumeroSeguro(ticketData) {
         const configRef = db.collection("config").doc("contador");
-        
         return await db.runTransaction(async (transaction) => {
             const configSnap = await transaction.get(configRef);
-            let nuevoNumero = 1;
-            
-            if (configSnap.exists) {
-                nuevoNumero = (configSnap.data().ultimoNumero || 0) + 1;
-            }
-            
+            let nuevoNumero = configSnap.exists ? (configSnap.data().ultimoNumero || 0) + 1 : 1;
             transaction.set(configRef, { ultimoNumero: nuevoNumero });
-            
             const nuevoDocRef = db.collection("tickets").doc();
-            transaction.set(nuevoDocRef, {
-                ...ticketData,
-                numero: nuevoNumero
-            });
-            
+            transaction.set(nuevoDocRef, { ...ticketData, numero: nuevoNumero });
             return nuevoNumero;
         });
     }
 
-    async function actualizarTicket(ticketId, datos) {
-        await db.collection("tickets").doc(ticketId).update(datos);
-    }
+    async function actualizarTicket(ticketId, datos) { await db.collection("tickets").doc(ticketId).update(datos); }
 
     async function eliminarTicketYRenumerar(ticketId) {
         await db.collection("tickets").doc(ticketId).delete();
-        
         const snapshot = await db.collection("tickets").orderBy("numero").get();
         const batch = db.batch();
         let nuevoNum = 1;
-        snapshot.forEach(docSnap => {
-            batch.update(docSnap.ref, { numero: nuevoNum });
-            nuevoNum++;
-        });
+        snapshot.forEach(docSnap => { batch.update(docSnap.ref, { numero: nuevoNum }); nuevoNum++; });
         await batch.commit();
-        
         await db.collection("config").doc("contador").set({ ultimoNumero: nuevoNum - 1 });
     }
 
-    function limpiarListeners() {
-        listenersActivos.forEach(unsub => unsub());
-        listenersActivos = [];
-    }
+    function limpiarListeners() { listenersActivos.forEach(unsub => unsub()); listenersActivos = []; }
 
     function mostrarVista(id) {
-        console.log('🔀 Cambiando a vista:', id);
-        
         limpiarListeners();
         document.querySelectorAll('.vista').forEach(v => v.classList.remove('activa'));
         document.getElementById(id).classList.add('activa');
+        setTimeout(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, 100);
         
-        setTimeout(() => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-            console.log('✅ Scroll realizado para:', id);
-        }, 100);
-        
-        if (id === 'vistaAcceso') {
-            escucharConfig(actualizarEstadoAcceso);
-        } else if (id === 'vistaSeleccion') {
-            escucharCarreras(renderizarCarrerasSeleccion);
-        } else if (id === 'vistaPublica') {
-            escucharConfig(() => {});
-            escucharTickets(renderizarPantallaPublica);
-        } else if (id === 'vistaAdmin') {
-            escucharConfig(renderizarAdmin);
-            escucharCarreras(renderizarAdmin);
-            escucharTickets(renderizarAdmin);
-            setTimeout(() => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }, 100);
-        } else if (id === 'vistaAdminLogin') {
-            setTimeout(() => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }, 200);
-        }
+        if (id === 'vistaAcceso') escucharConfig(actualizarEstadoAcceso);
+        else if (id === 'vistaSeleccion') escucharCarreras(renderizarCarrerasSeleccion);
+        else if (id === 'vistaPublica') { escucharConfig(() => {}); escucharTickets(renderizarPantallaPublica); }
+        else if (id === 'vistaAdmin') { escucharConfig(renderizarAdmin); escucharCarreras(renderizarAdmin); escucharTickets(renderizarAdmin); }
     }
 
     function actualizarEstadoAcceso() {
         const punto = document.getElementById('puntoEstadoAcceso');
         const texto = document.getElementById('textoEstadoAcceso');
         if (!punto || !texto) return;
-        
-        if (estado.config.estadoEvento === 'abierto') {
-            punto.classList.remove('cerrado');
-            texto.textContent = 'Taquilla Abierta';
-        } else {
-            punto.classList.add('cerrado');
-            texto.textContent = 'Taquilla Cerrada';
-        }
+        if (estado.config.estadoEvento === 'abierto') { punto.classList.remove('cerrado'); texto.textContent = 'Taquilla Abierta'; }
+        else { punto.classList.add('cerrado'); texto.textContent = 'Taquilla Cerrada'; }
     }
 
     function generarSugerencias(nombreBase) {
@@ -688,29 +593,20 @@
         const nombresExistentes = estado.tickets.map(t => t.nombre);
         let contador = 2;
         while (sugerencias.length < 3 && contador < 100) {
-            const sufijo = contador.toString().padStart(2, '0');
-            const nombreSugerido = `${nombreBase}_${sufijo}`;
-            if (!nombresExistentes.includes(nombreSugerido)) {
-                sugerencias.push(nombreSugerido);
-            }
+            const nombreSugerido = `${nombreBase}_${contador.toString().padStart(2, '0')}`;
+            if (!nombresExistentes.includes(nombreSugerido)) sugerencias.push(nombreSugerido);
             contador++;
         }
         return sugerencias;
     }
 
     function mostrarSugerencias(nombreBase) {
-        const sugerencias = generarSugerencias(nombreBase);
         const cont = document.getElementById('sugerenciasNombres');
         cont.innerHTML = '';
-        sugerencias.forEach(nombre => {
+        generarSugerencias(nombreBase).forEach(nombre => {
             const btn = document.createElement('button');
-            btn.type = 'button';
-            btn.className = 'btn-sugerencia';
-            btn.textContent = nombre;
-            btn.onclick = () => {
-                document.getElementById('nombreJugador').value = nombre;
-                document.getElementById('mensajeSugerencia').classList.remove('activo');
-            };
+            btn.type = 'button'; btn.className = 'btn-sugerencia'; btn.textContent = nombre;
+            btn.onclick = () => { document.getElementById('nombreJugador').value = nombre; document.getElementById('mensajeSugerencia').classList.remove('activo'); };
             cont.appendChild(btn);
         });
         document.getElementById('mensajeSugerencia').classList.add('activo');
@@ -718,133 +614,85 @@
 
     document.getElementById('formularioAcceso').addEventListener('submit', async (e) => {
         e.preventDefault();
-        console.log('✅ Formulario enviado');
-        
-        if (estado.config.estadoEvento !== 'abierto') {
-            alert('⚠️ Las jugadas para este evento han sido cerradas.');
-            return;
-        }
+        if (estado.config.estadoEvento !== 'abierto') { alert('⚠️ Las jugadas para este evento han sido cerradas.'); return; }
         const nombre = document.getElementById('nombreJugador').value.trim().toUpperCase();
         if (!nombre) return;
-        
-        const nombresExistentes = estado.tickets.map(t => t.nombre);
-        if (nombresExistentes.includes(nombre)) {
-            mostrarSugerencias(nombre);
-            return;
-        }
-        
+        if (estado.tickets.map(t => t.nombre).includes(nombre)) { mostrarSugerencias(nombre); return; }
         iniciarJugador(nombre);
     });
 
-    document.getElementById('nombreJugador').addEventListener('input', () => {
-        document.getElementById('mensajeSugerencia').classList.remove('activo');
+    // ✅ MODIFICACIÓN: Convertir a mayúsculas mientras se escribe
+    document.getElementById('nombreJugador').addEventListener('input', (e) => { 
+        e.target.value = e.target.value.toUpperCase();
+        document.getElementById('mensajeSugerencia').classList.remove('activo'); 
     });
 
     function iniciarJugador(nombre) {
-        jugadorActual = {
-            nombre: nombre.toUpperCase(),
-            seleccionesTemp: { 1: null, 2: null, 3: null, 4: null, 5: null, 6: null }
-        };
+        jugadorActual = { nombre: nombre, seleccionesTemp: { 1: null, 2: null, 3: null, 4: null, 5: null, 6: null } };
         document.getElementById('nombreJugadorSeleccion').textContent = nombre;
-        document.getElementById('avatarJugador').textContent = nombre.charAt(0).toUpperCase();
+        document.getElementById('avatarJugador').textContent = nombre.charAt(0);
         renderizarCarrerasSeleccion();
         mostrarVista('vistaSeleccion');
     }
 
     function salirSeleccion() {
-        if (confirm('¿Salir? Tu jugada NO se guardará si no la has enviado.')) {
-            jugadorActual = null;
-            mostrarVista('vistaAcceso');
-        }
+        if (confirm('¿Salir? Tu jugada NO se guardará si no la has enviado.')) { jugadorActual = null; mostrarVista('vistaAcceso'); }
     }
 
     function obtenerReglaDinamica(carrera) {
-        const ejemplaresActivos = carrera.ejemplares.filter(e => !e.retirado).length;
-        if (ejemplaresActivos <= 6) return { paga: '1°', posiciones: [1], texto: 'Pagan: 1° lugar' };
-        if (ejemplaresActivos <= 9) return { paga: '1° y 2°', posiciones: [1, 2], texto: 'Pagan: 1° y 2° lugar' };
-        return { paga: '1°, 2° y 3°', posiciones: [1, 2, 3], texto: 'Pagan: 1°, 2° y 3° lugar' };
+        const activos = carrera.ejemplares.filter(e => !e.retirado).length;
+        if (activos <= 6) return { posiciones: [1], texto: 'Pagan: 1° lugar' };
+        if (activos <= 9) return { posiciones: [1, 2], texto: 'Pagan: 1° y 2° lugar' };
+        return { posiciones: [1, 2, 3], texto: 'Pagan: 1°, 2° y 3° lugar' };
     }
 
     function renderizarCarrerasSeleccion() {
         const grid = document.getElementById('gridCarreras');
         if (!grid || !jugadorActual) return;
         grid.innerHTML = '';
-        
         estado.carreras.forEach(carrera => {
-            const ejemplaresActivos = carrera.ejemplares.filter(e => !e.retirado);
+            const activos = carrera.ejemplares.filter(e => !e.retirado);
             const regla = obtenerReglaDinamica(carrera);
-            const seleccion = jugadorActual.seleccionesTemp[carrera.numero];
-            const completada = seleccion !== null;
-            
+            const sel = jugadorActual.seleccionesTemp[carrera.numero];
+            const completada = sel !== null;
             const bloque = document.createElement('div');
             bloque.className = 'bloque-carrera glass' + (completada ? ' completada' : '');
-            
             bloque.innerHTML = `
                 <div class="encabezado-carrera">
                     <div class="titulo-carrera">CARRERA ${carrera.numero} - ${ordinal(carrera.numero)} V.</div>
-                    <div class="estado-carrera ${completada ? 'completada' : 'pendiente'}">
-                        ${completada ? '✓ Completada' : '● Pendiente'}
-                    </div>
+                    <div class="estado-carrera ${completada ? 'completada' : 'pendiente'}">${completada ? '✓ Completada' : '● Pendiente'}</div>
                 </div>
-                <div class="regla-dinamica">
-                    <span>Corren: <strong>${ejemplaresActivos.length}</strong> ejemplares</span>
-                    <span>${regla.texto}</span>
-                </div>
-                <div class="grilla-ejemplares" id="grilla-carrera-${carrera.numero}"></div>
-            `;
-            
+                <div class="regla-dinamica"><span>Corren: <strong>${activos.length}</strong></span><span>${regla.texto}</span></div>
+                <div class="grilla-ejemplares" id="grilla-carrera-${carrera.numero}"></div>`;
             grid.appendChild(bloque);
-            
             const grilla = bloque.querySelector(`#grilla-carrera-${carrera.numero}`);
-            ejemplaresActivos.forEach(ej => {
+            activos.forEach(ej => {
                 const btn = document.createElement('button');
-                btn.className = 'btn-ejemplar';
+                btn.className = 'btn-ejemplar' + (sel === ej.numero ? ' seleccionado' : (sel !== null ? ' bloqueado' : ''));
                 btn.textContent = ej.numero;
-                
-                if (seleccion === ej.numero) {
-                    btn.classList.add('seleccionado');
-                } else if (seleccion !== null) {
-                    btn.classList.add('bloqueado');
-                }
-                
                 btn.onclick = () => manejarClicEjemplar(carrera.numero, ej.numero);
                 grilla.appendChild(btn);
             });
         });
-        
         actualizarContador();
     }
 
     function manejarClicEjemplar(numCarrera, numEjemplar) {
-        const seleccionActual = jugadorActual.seleccionesTemp[numCarrera];
-        if (seleccionActual === numEjemplar) {
-            jugadorActual.seleccionesTemp[numCarrera] = null;
-        } else {
-            jugadorActual.seleccionesTemp[numCarrera] = numEjemplar;
-        }
+        const sel = jugadorActual.seleccionesTemp[numCarrera];
+        jugadorActual.seleccionesTemp[numCarrera] = (sel === numEjemplar) ? null : numEjemplar;
         renderizarCarrerasSeleccion();
     }
 
     function actualizarContador() {
         const completadas = Object.values(jugadorActual.seleccionesTemp).filter(s => s !== null).length;
         document.getElementById('contadorProgreso').textContent = completadas;
-        
         const btn = document.getElementById('btnEnviar');
-        const mensaje = document.getElementById('mensajeEnviar');
-        
-        if (completadas === 6) {
-            btn.disabled = false;
-            mensaje.innerHTML = '¡Todo listo! Puedes <strong>enviar tu jugada</strong>';
-        } else {
-            btn.disabled = true;
-            mensaje.innerHTML = `Completa las <strong>6 carreras</strong> (${completadas}/6)`;
-        }
+        const msg = document.getElementById('mensajeEnviar');
+        if (completadas === 6) { btn.disabled = false; msg.innerHTML = '¡Todo listo! Puedes <strong>enviar tu jugada</strong>'; }
+        else { btn.disabled = true; msg.innerHTML = `Completa las <strong>6 carreras</strong> (${completadas}/6)`; }
     }
 
-    function ordinal(n) {
-        const ord = ['1era', '2da', '3era', '4ta', '5ta', '6ta'];
-        return ord[n-1];
-    }
+    function ordinal(n) { return ['1ª', '2ª', '3ª', '4ª', '5ª', '6ª'][n-1]; }
 
     function abrirModalConfirmacion() {
         const resumen = document.getElementById('resumenJugada');
@@ -852,188 +700,87 @@
         for (let i = 1; i <= 6; i++) {
             const fila = document.createElement('div');
             fila.className = 'fila-resumen';
-            fila.innerHTML = `
-                <span>${ordinal(i)} V.</span>
-                <strong>Ejemplar N° ${jugadorActual.seleccionesTemp[i]}</strong>
-            `;
+            fila.innerHTML = `<span>${ordinal(i)} V.</span><strong>Ejemplar N° ${jugadorActual.seleccionesTemp[i]}</strong>`;
             resumen.appendChild(fila);
         }
         document.getElementById('modalConfirmacion').classList.add('activo');
     }
 
-    function cerrarModal(id) {
-        document.getElementById(id).classList.remove('activo');
-    }
+    function cerrarModal(id) { document.getElementById(id).classList.remove('activo'); }
 
     async function confirmarEnvio() {
-        const nuevoTicket = {
-            nombre: jugadorActual.nombre.toUpperCase(),
-            fecha: new Date().toISOString(),
-            selecciones: [],
-            estadoCobro: 'pendiente'
-        };
-        
+        const nuevoTicket = { nombre: jugadorActual.nombre, fecha: new Date().toISOString(), selecciones: [], estadoCobro: 'pendiente' };
         for (let i = 1; i <= 6; i++) {
-            nuevoTicket.selecciones.push({
-                carrera: i,
-                ejemplarOriginal: jugadorActual.seleccionesTemp[i],
-                ejemplarAsignado: jugadorActual.seleccionesTemp[i]
-            });
+            nuevoTicket.selecciones.push({ carrera: i, ejemplarOriginal: jugadorActual.seleccionesTemp[i], ejemplarAsignado: jugadorActual.seleccionesTemp[i] });
         }
-        
         try {
             const numero = await crearTicketConNumeroSeguro(nuevoTicket);
             cerrarModal('modalConfirmacion');
-            document.getElementById('textoExito').textContent = 
-                `${jugadorActual.nombre} (#${numero.toString().padStart(2,'0')}), tu jugada ha sido confirmada.`;
+            document.getElementById('textoExito').textContent = `${jugadorActual.nombre} (#${numero.toString().padStart(2,'0')}), tu jugada ha sido confirmada.`;
             document.getElementById('modalExito').classList.add('activo');
-        } catch (error) {
-            console.error('❌ Error al crear ticket:', error);
-            alert('❌ Error al registrar la jugada: ' + error.message);
-        }
+        } catch (error) { alert('❌ Error al registrar la jugada: ' + error.message); }
     }
 
     function generarLogTicket(ticket) {
         const fecha = new Date(ticket.fecha).toLocaleString('es');
-        let log = `================================\n`;
-        log += `COMPROBANTE DE JUGADA\n`;
-        log += `================================\n`;
-        log += `Nombre: ${ticket.nombre}\n`;
-        log += `Ticket N°: ${ticket.numero.toString().padStart(2, '0')}\n`;
-        log += `Fecha: ${fecha}\n`;
-        log += `--------------------------------\n`;
-        log += `SELECCIONES:\n`;
-        ticket.selecciones.forEach(s => {
-            log += `${ordinal(s.carrera)} V.: Ejemplar N° ${s.ejemplarAsignado}\n`;
-        });
-        log += `--------------------------------\n`;
-        log += `Monto Apostado: $${estado.config.montoFijo}\n`;
-        log += `================================`;
+        let log = `================================\nCOMPROBANTE DE JUGADA\n================================\nNombre: ${ticket.nombre}\nTicket N°: ${ticket.numero.toString().padStart(2, '0')}\nFecha: ${fecha}\n--------------------------------\nSELECCIONES:\n`;
+        ticket.selecciones.forEach(s => { log += `${ordinal(s.carrera)} V.: Ejemplar N° ${s.ejemplarAsignado}\n`; });
+        log += `--------------------------------\nMonto Apostado: Bs. ${estado.config.montoFijo}\n================================`;
         return log;
     }
 
     function copiarLogJugador() {
-        const ultimoTicket = estado.tickets[estado.tickets.length - 1];
-        if (!ultimoTicket) {
-            alert('❌ No se encontró el ticket');
-            return;
-        }
-        
-        const log = generarLogTicket(ultimoTicket);
-        console.log('📋 Log a copiar:', log);
-        
-        copiarAlPortapapeles(log).then(() => {
-            alert('✅ Comprobante copiado al portapapeles');
-        }).catch((error) => {
-            console.error('❌ Error al copiar:', error);
-            alert('❌ Error al copiar. Intenta manualmente:\n\n' + log);
-        });
+        const ultimo = estado.tickets[estado.tickets.length - 1];
+        if (!ultimo) return;
+        copiarAlPortapapeles(generarLogTicket(ultimo)).then(() => alert('✅ Comprobante copiado')).catch(() => alert('❌ Error al copiar'));
     }
 
     async function copiarAlPortapapeles(texto) {
-        try {
-            await navigator.clipboard.writeText(texto);
-            console.log('✅ Copiado al portapapeles');
-            return true;
-        } catch (err) {
-            console.error('❌ Error con clipboard API:', err);
-            
-            const ta = document.createElement('textarea');
-            ta.value = texto;
-            ta.style.position = 'fixed';
-            ta.style.opacity = '0';
-            document.body.appendChild(ta);
-            ta.select();
-            
-            try {
-                document.execCommand('copy');
-                console.log('✅ Copiado con fallback');
-                document.body.removeChild(ta);
-                return true;
-            } catch (err2) {
-                console.error('❌ Error con fallback:', err2);
-                document.body.removeChild(ta);
-                throw err2;
-            }
+        try { await navigator.clipboard.writeText(texto); return true; }
+        catch (err) {
+            const ta = document.createElement('textarea'); ta.value = texto; ta.style.position = 'fixed'; ta.style.opacity = '0';
+            document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); return true;
         }
     }
 
-    function copiarLogActual() {
-        copiarAlPortapapeles(document.getElementById('logContenido').textContent);
-    }
+    function copiarLogActual() { copiarAlPortapapeles(document.getElementById('logContenido').textContent); }
 
-    function volverAlInicio() {
-        cerrarModal('modalExito');
-        jugadorActual = null;
-        mostrarVista('vistaAcceso');
-    }
+    function volverAlInicio() { cerrarModal('modalExito'); jugadorActual = null; mostrarVista('vistaAcceso'); }
 
-    // ========================================
-    // LOGIN ADMIN - MUESTRA PANEL EN LA MISMA VENTANA
-    // ========================================
     document.getElementById('formAdminLogin').addEventListener('submit', (e) => {
         e.preventDefault();
-        console.log('✅ Login admin intentado');
-        const pass = document.getElementById('passwordAdmin').value;
-        if (pass === ADMIN_PASSWORD) {
-            console.log('✅ Login admin exitoso - Mostrando Panel Admin');
-            mostrarVista('vistaAdmin');
-            renderizarAdmin();
-        } else {
-            alert('❌ Contraseña incorrecta');
-        }
+        if (document.getElementById('passwordAdmin').value === ADMIN_PASSWORD) { mostrarVista('vistaAdmin'); renderizarAdmin(); }
+        else { alert('❌ Contraseña incorrecta'); }
     });
 
-    function cerrarSesionAdmin() {
-        mostrarVista('vistaAcceso');
+    function volverAlInicioDesdeAdmin() {
+        if (estado.config.estadoEvento === 'cerrado') mostrarVista('vistaPublica');
+        else mostrarVista('vistaAcceso');
     }
 
     document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', function() {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('activa'));
             document.querySelectorAll('.tab-contenido').forEach(c => c.classList.remove('activa'));
-            btn.classList.add('activa');
-            document.getElementById(btn.dataset.tab).classList.add('activa');
+            this.classList.add('activa');
+            document.getElementById(this.dataset.tab).classList.add('activa');
         });
     });
 
-    function renderizarAdmin() {
-        renderizarWidgetEstado();
-        renderizarConfigMonto();
-        renderizarCarrerasAdmin();
-        renderizarResultadosAdmin();
-        renderizarParticipantes();
-        renderizarCobranza();
-    }
+    function renderizarAdmin() { renderizarWidgetEstado(); renderizarConfigMonto(); renderizarCarrerasAdmin(); renderizarResultadosAdmin(); renderizarParticipantes(); renderizarCobranza(); }
 
     function renderizarWidgetEstado() {
-        const indicador = document.getElementById('widgetIndicador');
-        const texto = document.getElementById('widgetTexto');
-        const subtexto = document.getElementById('widgetSubtexto');
-        if (!indicador) return;
-        
-        if (estado.config.estadoEvento === 'abierto') {
-            indicador.classList.remove('cerrado');
-            texto.textContent = 'TAQUILLA ABIERTA';
-            subtexto.textContent = 'Los jugadores pueden enviar sus jugadas';
-        } else {
-            indicador.classList.add('cerrado');
-            texto.textContent = 'TAQUILLA CERRADA';
-            subtexto.textContent = 'Puedes cargar resultados y marcar retiros';
-        }
+        const ind = document.getElementById('widgetIndicador'), txt = document.getElementById('widgetTexto'), sub = document.getElementById('widgetSubtexto'), btn = document.getElementById('btnToggleTaquilla');
+        if (!ind) return;
+        if (estado.config.estadoEvento === 'abierto') { ind.classList.remove('cerrado'); txt.textContent = 'TAQUILLA ABIERTA'; sub.textContent = 'Los jugadores pueden enviar sus jugadas'; btn.innerHTML = ' Cerrar Taquilla'; }
+        else { ind.classList.add('cerrado'); txt.textContent = 'TAQUILLA CERRADA'; sub.textContent = 'Puedes cargar resultados y marcar retiros'; btn.innerHTML = '🔓 Abrir Taquilla'; }
     }
 
     async function toggleTaquilla() {
         const accion = estado.config.estadoEvento === 'abierto' ? 'cerrar' : 'abrir';
         if (confirm(`¿Está seguro de ${accion} la taquilla?`)) {
-            const nuevoEstado = estado.config.estadoEvento === 'abierto' ? 'cerrado' : 'abierto';
-            await actualizarConfig({ estadoEvento: nuevoEstado });
-            
-            if (nuevoEstado === 'cerrado') {
-                setTimeout(() => {
-                    mostrarVista('vistaPublica');
-                }, 500);
-            }
+            const nuevo = estado.config.estadoEvento === 'abierto' ? 'cerrado' : 'abierto';
+            await actualizarConfig({ estadoEvento: nuevo });
         }
     }
 
@@ -1047,151 +794,94 @@
 
     function actualizarPreviewPremios() {
         const monto = parseFloat(document.getElementById('inputMonto').value) || 0;
-        document.getElementById('previewCompleto').textContent = '$' + (monto * 15);
-        document.getElementById('previewMedio').textContent = '$' + ((monto * 15) / 2);
+        document.getElementById('previewCompleto').textContent = 'Bs. ' + (monto * 15);
+        document.getElementById('previewMedio').textContent = 'Bs. ' + ((monto * 15) / 2);
     }
 
     document.getElementById('inputMonto').addEventListener('input', actualizarPreviewPremios);
 
     async function guardarMonto() {
         const monto = parseFloat(document.getElementById('inputMonto').value);
-        if (monto > 0) {
-            await actualizarConfig({ montoFijo: monto });
-            alert('✓ Monto guardado: $' + monto);
-        }
+        if (monto > 0) { await actualizarConfig({ montoFijo: monto }); alert('✓ Monto guardado: Bs. ' + monto); }
     }
 
     function renderizarCarrerasAdmin() {
         const grid = document.getElementById('gridCarrerasAdmin');
-        if (!grid) return;
-        grid.innerHTML = '';
-        
+        if (!grid) return; grid.innerHTML = '';
         estado.carreras.forEach(carrera => {
             const bloque = document.createElement('div');
             bloque.className = 'bloque-carrera-admin glass-strong';
-            
-            const ejemplaresHTML = carrera.ejemplares.map(ej => `
-                <button class="btn-ejemplar-admin ${ej.retirado ? 'retirado' : ''}" 
-                        onclick="toggleRetiro('${carrera.id}', ${ej.numero})">
-                    ${ej.numero}
-                </button>
-            `).join('');
-            
+            const ejHTML = carrera.ejemplares.map(ej => `<button class="btn-ejemplar-admin ${ej.retirado ? 'retirado' : ''}" onclick="toggleRetiro('${carrera.id}', ${ej.numero})">${ej.numero}</button>`).join('');
             bloque.innerHTML = `
                 <h3>CARRERA ${carrera.numero} - ${ordinal(carrera.numero)} V.</h3>
                 <div class="config-ejemplares">
                     <label>Cantidad:</label>
-                    <input type="number" id="cant-${carrera.id}" min="2" max="20" value="${carrera.ejemplares.length}" 
-                        ${estado.config.estadoEvento !== 'abierto' ? 'disabled' : ''}>
-                    <button class="btn btn-primary btn-sm" onclick="generarEjemplares('${carrera.id}')"
-                        ${estado.config.estadoEvento !== 'abierto' ? 'disabled' : ''}>
-                        Generar
-                    </button>
+                    <input type="number" id="cant-${carrera.id}" min="2" max="20" value="${carrera.ejemplares.length}" ${estado.config.estadoEvento !== 'abierto' ? 'disabled' : ''}>
+                    <button class="btn btn-primary btn-sm" onclick="generarEjemplares('${carrera.id}')" ${estado.config.estadoEvento !== 'abierto' ? 'disabled' : ''}>Generar</button>
                 </div>
-                <div class="grilla-ejemplares-admin">${ejemplaresHTML || '<p style="color: var(--gris-claro); font-size: 12px;">Sin ejemplares</p>'}</div>
-            `;
+                <div class="grilla-ejemplares-admin">${ejHTML || '<p style="color: var(--gris-claro); font-size: 12px;">Sin ejemplares</p>'}</div>`;
             grid.appendChild(bloque);
         });
     }
 
     async function generarEjemplares(carreraId) {
         const cant = parseInt(document.getElementById(`cant-${carreraId}`).value);
-        if (cant < 2 || cant > 20) {
-            alert('La cantidad debe estar entre 2 y 20');
-            return;
-        }
-        const carrera = estado.carreras.find(c => c.id === carreraId);
-        const nuevosEjemplares = [];
-        for (let i = 1; i <= cant; i++) {
-            nuevosEjemplares.push({ numero: i, retirado: false });
-        }
-        await actualizarCarrera(carreraId, { ejemplares: nuevosEjemplares });
+        if (cant < 2 || cant > 20) { alert('La cantidad debe estar entre 2 y 20'); return; }
+        const nuevos = []; for (let i = 1; i <= cant; i++) nuevos.push({ numero: i, retirado: false });
+        await actualizarCarrera(carreraId, { ejemplares: nuevos });
     }
 
     async function toggleRetiro(carreraId, numEjemplar) {
         const carrera = estado.carreras.find(c => c.id === carreraId);
-        const ejemplar = carrera.ejemplares.find(e => e.numero === numEjemplar);
-        
-        if (!ejemplar.retirado) {
-            if (!confirm(`¿Marcar ejemplar ${numEjemplar} como RETIRADO?`)) return;
-        }
-        
-        const nuevosEjemplares = carrera.ejemplares.map(e => {
-            if (e.numero === numEjemplar) return { ...e, retirado: !e.retirado };
-            return e;
-        });
-        
-        await actualizarCarrera(carreraId, { ejemplares: nuevosEjemplares });
+        const ej = carrera.ejemplares.find(e => e.numero === numEjemplar);
+        if (!ej.retirado && !confirm(`¿Marcar ejemplar ${numEjemplar} como RETIRADO?`)) return;
+        const nuevos = carrera.ejemplares.map(e => e.numero === numEjemplar ? { ...e, retirado: !e.retirado } : e);
+        await actualizarCarrera(carreraId, { ejemplares: nuevos });
         await aplicarReasignacionesMasivas();
     }
 
     async function aplicarReasignacionesMasivas() {
         const batch = db.batch();
-        
         estado.tickets.forEach(ticket => {
             let modificado = false;
-            const nuevasSelecciones = ticket.selecciones.map(sel => {
+            const nuevas = ticket.selecciones.map(sel => {
                 const carrera = estado.carreras.find(c => c.numero === sel.carrera);
-                const ejemplarOriginal = carrera.ejemplares.find(e => e.numero === sel.ejemplarOriginal);
-                
-                let nuevoAsignado = sel.ejemplarAsignado;
-                if (ejemplarOriginal && ejemplarOriginal.retirado) {
-                    nuevoAsignado = buscarSiguienteValido(carrera, sel.ejemplarOriginal);
-                    modificado = true;
-                } else {
-                    nuevoAsignado = sel.ejemplarOriginal;
-                }
-                
-                return { ...sel, ejemplarAsignado: nuevoAsignado };
+                const original = carrera.ejemplares.find(e => e.numero === sel.ejemplarOriginal);
+                let nuevo = sel.ejemplarAsignado;
+                if (original && original.retirado) { nuevo = buscarSiguienteValido(carrera, sel.ejemplarOriginal); modificado = true; }
+                else { nuevo = sel.ejemplarOriginal; }
+                return { ...sel, ejemplarAsignado: nuevo };
             });
-            
-            if (modificado) {
-                batch.update(db.collection("tickets").doc(ticket.id), { selecciones: nuevasSelecciones });
-            }
+            if (modificado) batch.update(db.collection("tickets").doc(ticket.id), { selecciones: nuevas });
         });
-        
         await batch.commit();
     }
 
-    function buscarSiguienteValido(carrera, numEjemplarInicio) {
-        const ejemplares = carrera.ejemplares;
-        const idxInicio = ejemplares.findIndex(e => e.numero === numEjemplarInicio);
-        for (let i = 1; i < ejemplares.length; i++) {
-            const idx = (idxInicio + i) % ejemplares.length;
-            if (!ejemplares[idx].retirado) return ejemplares[idx].numero;
+    function buscarSiguienteValido(carrera, numInicio) {
+        const ej = carrera.ejemplares;
+        const idx = ej.findIndex(e => e.numero === numInicio);
+        for (let i = 1; i < ej.length; i++) {
+            const nIdx = (idx + i) % ej.length;
+            if (!ej[nIdx].retirado) return ej[nIdx].numero;
         }
         return null;
     }
 
     function renderizarResultadosAdmin() {
         const grid = document.getElementById('gridResultadosAdmin');
-        if (!grid) return;
-        grid.innerHTML = '';
-        
+        if (!grid) return; grid.innerHTML = '';
         estado.carreras.forEach(carrera => {
             const bloque = document.createElement('div');
             bloque.className = 'bloque-carrera-admin glass-strong';
             bloque.innerHTML = `
                 <h3>CARRERA ${carrera.numero} - ${ordinal(carrera.numero)} V.</h3>
                 <div class="form-resultados">
-                    <div class="fila-resultado">
-                        <label>1° Lugar:</label>
-                        <input type="text" id="r1-${carrera.id}" value="${carrera.resultados.p1}" placeholder="Ej: 3">
-                    </div>
-                    <div class="fila-resultado">
-                        <label>2° Lugar:</label>
-                        <input type="text" id="r2-${carrera.id}" value="${carrera.resultados.p2}" placeholder="Ej: 5,7">
-                    </div>
-                    <div class="fila-resultado">
-                        <label>3° Lugar:</label>
-                        <input type="text" id="r3-${carrera.id}" value="${carrera.resultados.p3}" placeholder="Ej: 2">
-                    </div>
+                    <div class="fila-resultado"><label>1° Lugar:</label><input type="text" id="r1-${carrera.id}" value="${carrera.resultados.p1}" placeholder="Ej: 3"></div>
+                    <div class="fila-resultado"><label>2° Lugar:</label><input type="text" id="r2-${carrera.id}" value="${carrera.resultados.p2}" placeholder="Ej: 5,7"></div>
+                    <div class="fila-resultado"><label>3° Lugar:</label><input type="text" id="r3-${carrera.id}" value="${carrera.resultados.p3}" placeholder="Ej: 2"></div>
                     <div class="hint-empates">💡 Para empates, separa con comas (ej: "3,5")</div>
-                    <button class="btn btn-success btn-sm" onclick="guardarResultados('${carrera.id}')" style="margin-top: 10px;">
-                        💾 Guardar Resultados
-                    </button>
-                </div>
-            `;
+                    <button class="btn btn-success btn-sm" onclick="guardarResultados('${carrera.id}')" style="margin-top: 10px;">💾 Guardar Resultados</button>
+                </div>`;
             grid.appendChild(bloque);
         });
     }
@@ -1200,96 +890,68 @@
         const p1 = document.getElementById(`r1-${carreraId}`).value.trim();
         const p2 = document.getElementById(`r2-${carreraId}`).value.trim();
         const p3 = document.getElementById(`r3-${carreraId}`).value.trim();
-        
         const validar = (val) => !val || /^(\d+)(,\d+)*$/.test(val);
-        if (!validar(p1) || !validar(p2) || !validar(p3)) {
-            alert('❌ Formato inválido. Usa solo números separados por comas.');
-            return;
-        }
-        
+        if (!validar(p1) || !validar(p2) || !validar(p3)) { alert('❌ Formato inválido.'); return; }
         await actualizarCarrera(carreraId, { resultados: { p1, p2, p3 } });
         alert('✓ Resultados guardados');
     }
 
     function evaluarTicket(ticket) {
-        let aciertos = 0;
-        let tieneEmpate = false;
-        const detalles = [];
-        
+        let aciertos = 0, tieneEmpate = false, detalles = [];
         ticket.selecciones.forEach(sel => {
             const carrera = estado.carreras.find(c => c.numero === sel.carrera);
             const regla = obtenerReglaDinamica(carrera);
-            const ejSeleccionado = sel.ejemplarAsignado;
-            
-            let acierto = false;
-            let esEmpate = false;
-            
+            const ejSel = sel.ejemplarAsignado;
+            let acierto = false, empate = false;
             regla.posiciones.forEach(pos => {
                 const campo = pos === 1 ? 'p1' : (pos === 2 ? 'p2' : 'p3');
-                const resultado = carrera.resultados[campo];
-                if (resultado) {
-                    const numeros = resultado.split(',').map(n => parseInt(n.trim()));
-                    if (numeros.includes(ejSeleccionado)) {
-                        acierto = true;
-                        if (numeros.length > 1) esEmpate = true;
-                    }
+                const res = carrera.resultados[campo];
+                if (res) {
+                    const nums = res.split(',').map(n => parseInt(n.trim()));
+                    if (nums.includes(ejSel)) { acierto = true; if (nums.length > 1) empate = true; }
                 }
             });
-            
-            if (acierto) {
-                aciertos++;
-                if (esEmpate) tieneEmpate = true;
-            }
-            
-            detalles.push({ carrera: sel.carrera, ejemplar: ejSeleccionado, acierto, empate: esEmpate });
+            if (acierto) { aciertos++; if (empate) tieneEmpate = true; }
+            detalles.push({ carrera: sel.carrera, ejemplar: ejSel, acierto, empate });
         });
-        
         const esGanador = aciertos === 6;
-        let tipoPremio = null;
-        let montoPagar = 0;
-        
+        let tipo = null, monto = 0;
         if (esGanador) {
-            tipoPremio = tieneEmpate ? 'medio' : 'completo';
-            const premioBase = estado.config.montoFijo * 15;
-            montoPagar = tieneEmpate ? premioBase / 2 : premioBase;
+            tipo = tieneEmpate ? 'medio' : 'completo';
+            const base = estado.config.montoFijo * 15;
+            monto = tieneEmpate ? base / 2 : base;
         }
-        
-        return { aciertos, esGanador, tipoPremio, montoPagar, detalles };
+        return { aciertos, esGanador, tipo, monto, detalles };
     }
 
     function renderizarParticipantes() {
         const tbody = document.getElementById('tbodyParticipantes');
         if (!tbody) return;
+        const busqueda = document.getElementById('buscadorParticipantes') ? document.getElementById('buscadorParticipantes').value.toUpperCase() : '';
         tbody.innerHTML = '';
-        
-        if (estado.tickets.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--gris-claro); padding: 40px;">No hay participantes</td></tr>';
-            return;
-        }
-        
-        estado.tickets.forEach(ticket => {
+        const filtrados = estado.tickets.filter(t => t.nombre.includes(busqueda));
+        if (filtrados.length === 0) { tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--gris-claro); padding: 40px;">No hay participantes</td></tr>'; return; }
+        filtrados.forEach(ticket => {
             const tr = document.createElement('tr');
-            const seleccionesHTML = ticket.selecciones.map(s => 
-                `<span class="mini-chip">${ordinal(s.carrera).substring(0,2)}:${s.ejemplarAsignado}</span>`
-            ).join('');
+            const selHTML = ticket.selecciones.map(s => `<span class="mini-chip">${ordinal(s.carrera)} V.: ${s.ejemplarAsignado}</span>`).join('');
             const fecha = new Date(ticket.fecha).toLocaleDateString('es');
-            
             tr.innerHTML = `
                 <td><strong>${ticket.numero.toString().padStart(2, '0')}</strong></td>
                 <td>${ticket.nombre}</td>
-                <td><div class="mini-selecciones">${seleccionesHTML}</div></td>
+                <td><div class="mini-selecciones">${selHTML}</div></td>
                 <td>${fecha}</td>
                 <td>
                     <div class="acciones-fila">
                         <button class="btn btn-secondary btn-sm" onclick="editarTicket('${ticket.id}')">✏️</button>
-                        <button class="btn btn-secondary btn-sm" onclick="verLogTicket('${ticket.id}')"></button>
-                        <button class="btn btn-danger btn-sm" onclick="eliminarTicket('${ticket.id}')">🗑️</button>
+                        <button class="btn btn-secondary btn-sm" onclick="verLogTicket('${ticket.id}')">📋</button>
+                        <button class="btn btn-danger btn-sm" onclick="eliminarTicket('${ticket.id}')">️</button>
                     </div>
-                </td>
-            `;
+                </td>`;
             tbody.appendChild(tr);
         });
     }
+
+    document.getElementById('buscadorParticipantes')?.addEventListener('input', renderizarParticipantes);
 
     function verLogTicket(id) {
         const ticket = estado.tickets.find(t => t.id === id);
@@ -1307,33 +969,14 @@
         const ticket = estado.tickets.find(t => t.id === id);
         if (!ticket) return;
         ticketEnEdicion = JSON.parse(JSON.stringify(ticket));
-        
         const cont = document.getElementById('contenidoEditar');
-        let html = `
-            <div class="grupo-input" style="margin-bottom: 20px;">
-                <label class="label-input">Nombre</label>
-                <input type="text" id="editNombre" class="input-nombre" value="${ticket.nombre}">
-            </div>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
-        `;
-        
+        let html = `<div class="grupo-input" style="margin-bottom: 20px;"><label class="label-input">Nombre</label><input type="text" id="editNombre" class="input-nombre" value="${ticket.nombre}" style="text-transform: uppercase;"></div><div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">`;
         ticket.selecciones.forEach((sel, idx) => {
             const carrera = estado.carreras.find(c => c.numero === sel.carrera);
-            const ejemplaresActivos = carrera.ejemplares.filter(e => !e.retirado);
-            const opciones = ejemplaresActivos.map(e => 
-                `<option value="${e.numero}" ${e.numero === sel.ejemplarAsignado ? 'selected' : ''}>${e.numero}</option>`
-            ).join('');
-            
-            html += `
-                <div class="glass-strong" style="padding: 12px;">
-                    <label style="font-size: 11px; color: var(--gris-claro); text-transform: uppercase;">${ordinal(sel.carrera)} V.</label>
-                    <select id="editSel-${idx}" style="width: 100%; padding: 8px; margin-top: 6px; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 8px; color: white;">
-                        ${opciones}
-                    </select>
-                </div>
-            `;
+            const activos = carrera.ejemplares.filter(e => !e.retirado);
+            const ops = activos.map(e => `<option value="${e.numero}" ${e.numero === sel.ejemplarAsignado ? 'selected' : ''}>${e.numero}</option>`).join('');
+            html += `<div class="glass-strong" style="padding: 12px;"><label style="font-size: 11px; color: var(--gris-claro); text-transform: uppercase;">${ordinal(sel.carrera)} V.</label><select id="editSel-${idx}" style="width: 100%; padding: 8px; margin-top: 6px; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 8px; color: white;">${ops}</select></div>`;
         });
-        
         html += '</div>';
         cont.innerHTML = html;
         document.getElementById('modalEditar').classList.add('activo');
@@ -1343,73 +986,51 @@
         if (!ticketEnEdicion) return;
         const nuevoNombre = document.getElementById('editNombre').value.trim().toUpperCase();
         if (!nuevoNombre) { alert('El nombre no puede estar vacío'); return; }
-        
-        const duplicado = estado.tickets.find(t => t.id !== ticketEnEdicion.id && t.nombre === nuevoNombre);
-        if (duplicado) { alert('⚠️ Ya existe un ticket con ese nombre'); return; }
-        
+        if (estado.tickets.find(t => t.id !== ticketEnEdicion.id && t.nombre === nuevoNombre)) { alert('⚠️ Ya existe un ticket con ese nombre'); return; }
         ticketEnEdicion.nombre = nuevoNombre;
-        ticketEnEdicion.selecciones.forEach((sel, idx) => {
-            sel.ejemplarAsignado = parseInt(document.getElementById(`editSel-${idx}`).value);
+        ticketEnEdicion.selecciones.forEach((sel, idx) => { sel.ejemplarAsignado = parseInt(document.getElementById(`editSel-${idx}`).value); });
+        await actualizarTicket(ticketEnEdicion.id, { nombre: ticketEnEdicion.nombre, selecciones: ticketEnEdicion.selecciones });
+        cerrarModal('modalEditar'); ticketEnEdicion = null; alert('✓ Cambios guardados');
+    }
+
+    async function copiarTodasLasJugadas() {
+        if (estado.tickets.length === 0) { alert('No hay jugadas registradas.'); return; }
+        let texto = "📋 LISTADO COMPLETO DE JUGADAS - MACUARE BDR\n================================\n\n";
+        estado.tickets.forEach(t => {
+            texto += `️ Ticket #${t.numero.toString().padStart(2,'0')} - ${t.nombre}\n`;
+            t.selecciones.forEach(s => { texto += `   ${ordinal(s.carrera)} V.: Ejemplar ${s.ejemplarAsignado}\n`; });
+            texto += `\n`;
         });
-        
-        await actualizarTicket(ticketEnEdicion.id, {
-            nombre: ticketEnEdicion.nombre,
-            selecciones: ticketEnEdicion.selecciones
-        });
-        
-        cerrarModal('modalEditar');
-        ticketEnEdicion = null;
-        alert('✓ Cambios guardados');
+        await copiarAlPortapapeles(texto);
+        alert('✅ Todas las jugadas copiadas al portapapeles. Listo para pegar en WhatsApp.');
     }
 
     function renderizarCobranza() {
-        const resumen = document.getElementById('resumenFinanciero');
-        const tbody = document.getElementById('tbodyCobranza');
-        if (!resumen || !tbody) return;
-        
-        const ganadores = [];
-        estado.tickets.forEach(ticket => {
-            const eval_ = evaluarTicket(ticket);
-            if (eval_.esGanador) {
-                ganadores.push({ ticket, tipo: eval_.tipoPremio, monto: eval_.montoPagar });
-            }
-        });
-        
-        const totalCompleto = ganadores.filter(g => g.tipo === 'completo').length;
-        const totalMedio = ganadores.filter(g => g.tipo === 'medio').length;
-        const totalPagar = ganadores.reduce((sum, g) => sum + g.monto, 0);
-        const totalPagado = ganadores.filter(g => g.ticket.estadoCobro === 'pagado').reduce((sum, g) => sum + g.monto, 0);
-        
-        resumen.innerHTML = `
+        const res = document.getElementById('resumenFinanciero'), tbody = document.getElementById('tbodyCobranza');
+        if (!res || !tbody) return;
+        const ganadores = estado.tickets.map(t => ({ ticket: t, ...evaluarTicket(t) })).filter(g => g.esGanador);
+        const totalComp = ganadores.filter(g => g.tipo === 'completo').length;
+        const totalMed = ganadores.filter(g => g.tipo === 'medio').length;
+        const totalPagar = ganadores.reduce((s, g) => s + g.monto, 0);
+        const totalPagado = ganadores.filter(g => g.ticket.estadoCobro === 'pagado').reduce((s, g) => s + g.monto, 0);
+        res.innerHTML = `
             <div class="stat-card glass-strong"><div class="valor">${ganadores.length}</div><div class="etiqueta">Ganadores</div></div>
-            <div class="stat-card glass-strong"><div class="valor">${totalCompleto}</div><div class="etiqueta">Completos</div></div>
-            <div class="stat-card glass-strong"><div class="valor">${totalMedio}</div><div class="etiqueta">Medios</div></div>
-            <div class="stat-card glass-strong"><div class="valor">$${totalPagar}</div><div class="etiqueta">Total</div></div>
-            <div class="stat-card glass-strong"><div class="valor" style="color: var(--verde);">$${totalPagado}</div><div class="etiqueta">Pagado</div></div>
-            <div class="stat-card glass-strong"><div class="valor" style="color: var(--amarillo);">$${totalPagar - totalPagado}</div><div class="etiqueta">Pendiente</div></div>
-        `;
-        
+            <div class="stat-card glass-strong"><div class="valor">${totalComp}</div><div class="etiqueta">Completos</div></div>
+            <div class="stat-card glass-strong"><div class="valor">${totalMed}</div><div class="etiqueta">Medios</div></div>
+            <div class="stat-card glass-strong"><div class="valor">Bs. ${totalPagar}</div><div class="etiqueta">Total</div></div>
+            <div class="stat-card glass-strong"><div class="valor" style="color: var(--verde);">Bs. ${totalPagado}</div><div class="etiqueta">Pagado</div></div>
+            <div class="stat-card glass-strong"><div class="valor" style="color: var(--amarillo);">Bs. ${totalPagar - totalPagado}</div><div class="etiqueta">Pendiente</div></div>`;
         tbody.innerHTML = '';
-        if (ganadores.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--gris-claro); padding: 40px;">Aún no hay ganadores</td></tr>';
-            return;
-        }
-        
+        if (ganadores.length === 0) { tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--gris-claro); padding: 40px;">Aún no hay ganadores</td></tr>'; return; }
         ganadores.forEach(g => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td><strong>${g.ticket.numero.toString().padStart(2, '0')}</strong></td>
                 <td>${g.ticket.nombre}</td>
                 <td><span class="badge ${g.tipo === 'completo' ? 'badge-completo' : 'badge-medio'}">${g.tipo.toUpperCase()}</span></td>
-                <td><strong>$${g.monto}</strong></td>
+                <td><strong>Bs. ${g.monto}</strong></td>
                 <td><span class="badge ${g.ticket.estadoCobro === 'pagado' ? 'badge-pagado' : 'badge-pendiente'}">${g.ticket.estadoCobro.toUpperCase()}</span></td>
-                <td>
-                    <button class="btn ${g.ticket.estadoCobro === 'pagado' ? 'btn-secondary' : 'btn-success'} btn-sm" 
-                            onclick="toggleCobro('${g.ticket.id}')">
-                        ${g.ticket.estadoCobro === 'pagado' ? '↩️ Revertir' : '✓ Pagado'}
-                    </button>
-                </td>
-            `;
+                <td><button class="btn ${g.ticket.estadoCobro === 'pagado' ? 'btn-secondary' : 'btn-success'} btn-sm" onclick="toggleCobro('${g.ticket.id}')">${g.ticket.estadoCobro === 'pagado' ? '↩️ Revertir' : '✓ Pagado'}</button></td>`;
             tbody.appendChild(tr);
         });
     }
@@ -1417,71 +1038,46 @@
     async function toggleCobro(id) {
         const ticket = estado.tickets.find(t => t.id === id);
         if (!ticket) return;
-        const nuevoEstado = ticket.estadoCobro === 'pagado' ? 'pendiente' : 'pagado';
-        await actualizarTicket(id, { estadoCobro: nuevoEstado });
+        await actualizarTicket(id, { estadoCobro: ticket.estadoCobro === 'pagado' ? 'pendiente' : 'pagado' });
     }
 
     function renderizarPantallaPublica() {
-        const lista = document.getElementById('listaJugadasPublica');
-        const total = document.getElementById('totalParticipaciones');
+        const lista = document.getElementById('listaJugadasPublica'), total = document.getElementById('totalParticipaciones');
         if (!lista || !total) return;
-        
         total.textContent = estado.tickets.length;
-        
         const hayResultados = estado.carreras.some(c => c.resultados.p1 || c.resultados.p2 || c.resultados.p3);
-        
-        let ticketsOrdenados = [...estado.tickets];
+        let ordenados = [...estado.tickets];
         if (hayResultados) {
-            ticketsOrdenados.sort((a, b) => {
-                const evalA = evaluarTicket(a);
-                const evalB = evaluarTicket(b);
-                if (evalA.esGanador && !evalB.esGanador) return -1;
-                if (!evalA.esGanador && evalB.esGanador) return 1;
-                return evalB.aciertos - evalA.aciertos;
+            ordenados.sort((a, b) => {
+                const eA = evaluarTicket(a), eB = evaluarTicket(b);
+                if (eA.esGanador && !eB.esGanador) return -1;
+                if (!eA.esGanador && eB.esGanador) return 1;
+                return eB.aciertos - eA.aciertos;
             });
         }
-        
         lista.innerHTML = '';
-        ticketsOrdenados.forEach(ticket => {
+        ordenados.forEach(ticket => {
             const eval_ = evaluarTicket(ticket);
             const bloque = document.createElement('div');
             bloque.className = 'bloque-jugada-publica glass';
-            
-            const seleccionesHTML = ticket.selecciones.map(s => {
-                let clase = 'pendiente';
-                let icono = '—';
-                
+            const selHTML = ticket.selecciones.map(s => {
+                let clase = 'pendiente', icono = '—';
                 if (hayResultados) {
-                    const detalle = eval_.detalles.find(d => d.carrera === s.carrera);
-                    if (detalle) {
-                        if (detalle.acierto) { 
-                            clase = 'acierto'; 
-                            icono = '✔️'; 
-                        } else { 
-                            clase = 'fallo'; 
-                            icono = ''; 
-                        }
-                    }
+                    const det = eval_.detalles.find(d => d.carrera === s.carrera);
+                    if (det) { if (det.acierto) { clase = 'acierto'; icono = '✔️'; } else { clase = 'fallo'; icono = '❌'; } }
                 }
-                
                 return `<div class="chip-seleccion ${clase}"><span class="num">${s.ejemplarAsignado}</span><span class="resultado">${icono}</span></div>`;
             }).join('');
-            
             let corazonHTML = '';
             if (hayResultados && eval_.aciertos > 0 && !eval_.detalles.some(d => !d.acierto)) {
-                corazonHTML = '<div class="corazon-titilante"></div>';
+                corazonHTML = '<span class="corazon-titilante">💚</span>';
             }
-            
             bloque.innerHTML = `
-                <div class="numero-jugada">
-                    ${ticket.numero.toString().padStart(2, '0')}
-                    ${corazonHTML}
-                </div>
+                <div class="numero-jugada">${ticket.numero.toString().padStart(2, '0')}</div>
                 <div class="info-jugada-publica">
-                    <div class="nombre-jugada-publica">${ticket.nombre}</div>
-                    <div class="selecciones-jugada">${seleccionesHTML}</div>
-                </div>
-            `;
+                    <div class="nombre-jugada-publica">${ticket.nombre} ${corazonHTML}</div>
+                    <div class="selecciones-jugada">${selHTML}</div>
+                </div>`;
             lista.appendChild(bloque);
         });
     }
@@ -1489,117 +1085,69 @@
     function generarPDF() {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
-        
-        doc.setFillColor(10, 25, 49);
-        doc.rect(0, 0, 297, 25, 'F');
-        doc.setTextColor(255, 255, 255);
-        doc.setFontSize(16);
-        doc.setFont('helvetica', 'bold');
-        doc.text('REPORTE GENERAL DE PRONÓSTICOS', 148, 15, { align: 'center' });
-        
-        const headers = [['Nombre', '1era', '✓/✗', '2da', '✓/✗', '3era', '✓/✗', '4ta', '✓/✗', '5ta', '✓/✗', '6ta', '✓/✗', 'GAN']];
+        doc.setFillColor(10, 25, 49); doc.rect(0, 0, 297, 25, 'F');
+        doc.setTextColor(255, 255, 255); doc.setFontSize(16); doc.setFont('helvetica', 'bold');
+        doc.text('REPORTE GENERAL DE MACUARES', 148, 15, { align: 'center' });
+        const headers = [['Nombre', '1ª V.', '✓/✗', '2ª V.', '✓/✗', '3ª V.', '✓/✗', '4ª V.', '✓/', '5ª V.', '✓/✗', '6ª V.', '✓/✗', 'GAN']];
         const data = [];
-        
         const evaluaciones = estado.tickets.map(t => ({ ticket: t, eval: evaluarTicket(t) }));
         evaluaciones.sort((a, b) => {
             if (a.eval.esGanador && !b.eval.esGanador) return -1;
             if (!a.eval.esGanador && b.eval.esGanador) return 1;
             return b.eval.aciertos - a.eval.aciertos;
         });
-        
-        evaluaciones.forEach(({ ticket, eval: eval_ }) => {
+        const carrerasConResultados = estado.carreras.filter(c => c.resultados.p1 || c.resultados.p2 || c.resultados.p3).length;
+        const todasCargadas = carrerasConResultados === 6;
+
+        evaluaciones.forEach(({ ticket, eval: ev }) => {
             const fila = [ticket.nombre];
-            eval_.detalles.forEach(d => {
-                fila.push(d.ejemplar.toString());
-                fila.push(d.acierto ? '✓' : '');
-            });
-            fila.push(eval_.esGanador ? 'TROFEO' : 'CALAVERA');
+            ev.detalles.forEach(d => { fila.push(d.ejemplar.toString()); fila.push(d.acierto ? '✓' : '✗'); });
+            let iconoGAN = '☠️';
+            if (todasCargadas) {
+                if (ev.esGanador) iconoGAN = '';
+            } else {
+                const tieneFalloConfirmado = ev.detalles.some(d => {
+                    const carrera = estado.carreras.find(c => c.numero === d.carrera);
+                    return (carrera.resultados.p1 || carrera.resultados.p2 || carrera.resultados.p3) && !d.acierto;
+                });
+                if (!tieneFalloConfirmado && ev.aciertos > 0) iconoGAN = '💚';
+            }
+            fila.push(iconoGAN);
             data.push(fila);
         });
-        
-        if (data.length === 0) {
-            doc.text('No hay participantes', 148, 50, { align: 'center' });
-        } else {
+        if (data.length === 0) { doc.text('No hay participantes', 148, 50, { align: 'center' }); }
+        else {
             doc.autoTable({
                 head: headers, body: data, startY: 30, theme: 'grid',
                 styles: { fontSize: 9, cellPadding: 3, textColor: [255,255,255], fillColor: [21,38,66], halign: 'center' },
                 headStyles: { fillColor: [106,27,154], fontStyle: 'bold' },
                 columnStyles: { 0: { halign: 'left', cellWidth: 35, fontStyle: 'bold' }, 13: { cellWidth: 20, fontStyle: 'bold' } },
                 alternateRowStyles: { fillColor: [30,50,85] },
-                didParseCell: function(data) {
-                    if (data.section === 'body' && data.column.index > 0 && data.column.index % 2 === 0 && data.column.index < 13) {
-                        if (data.cell.raw === '✓') data.cell.styles.textColor = [16,185,129];
-                        else if (data.cell.raw === '✗') data.cell.styles.textColor = [239,68,68];
+                didParseCell: function(d) {
+                    if (d.section === 'body' && d.column.index > 0 && d.column.index % 2 === 0 && d.column.index < 13) {
+                        if (d.cell.raw === '✓') d.cell.styles.textColor = [16,185,129];
+                        else if (d.cell.raw === '✗') d.cell.styles.textColor = [239,68,68];
                     }
-                    if (data.section === 'body' && data.column.index === 13) {
-                        if (data.cell.raw === 'TROFEO') { data.cell.styles.textColor = [251,191,36]; data.cell.raw = '🏆'; }
-                        else if (data.cell.raw === 'CALAVERA') { data.cell.styles.textColor = [200,200,200]; data.cell.raw = '☠️'; }
+                    if (d.section === 'body' && d.column.index === 13) {
+                        if (d.cell.raw === '') d.cell.styles.textColor = [251,191,36];
+                        else if (d.cell.raw === '💚') d.cell.styles.textColor = [16,185,129];
+                        else if (d.cell.raw === '☠️') d.cell.styles.textColor = [200,200,200];
                     }
                 }
             });
         }
-        doc.save('reporte-pronosticos.pdf');
+        doc.save('reporte-macuares.pdf');
     }
 
     async function inicializar() {
         try {
-            await cargarConfig();
-            await cargarCarreras();
-            await cargarTickets();
-            actualizarEstadoAcceso();
-            escucharConfig(actualizarEstadoAcceso);
-            console.log('✅ Sistema completamente inicializado');
-        } catch (error) {
-            console.error('❌ Error en inicialización:', error);
-        }
+            await cargarConfig(); await cargarCarreras(); await cargarTickets();
+            actualizarEstadoAcceso(); escucharConfig(actualizarEstadoAcceso);
+            console.log('✅ Sistema inicializado');
+        } catch (error) { console.error('❌ Error inicialización:', error); }
     }
-
-    // ========================================
-    // CORRECCIÓN DE TABS - Forzar funcionamiento
-    // ========================================
-    document.addEventListener('DOMContentLoaded', () => {
-        console.log(' Inicializando tabs...');
-        
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            const newBtn = btn.cloneNode(true);
-            btn.parentNode.replaceChild(newBtn, btn);
-        });
-        
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                
-                const tabId = this.dataset.tab;
-                console.log(' Tab clickeado:', tabId);
-                
-                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('activa'));
-                document.querySelectorAll('.tab-contenido').forEach(c => c.classList.remove('activa'));
-                
-                this.classList.add('activa');
-                
-                const tabContent = document.getElementById(tabId);
-                if (tabContent) {
-                    tabContent.classList.add('activa');
-                    console.log('✅ Tab activado:', tabId);
-                    
-                    setTimeout(() => {
-                        document.querySelector('.admin-panel').scrollIntoView({ 
-                            behavior: 'smooth', 
-                            block: 'start' 
-                        });
-                    }, 100);
-                } else {
-                    console.error('❌ Tab no encontrado:', tabId);
-                }
-            });
-        });
-        
-        console.log('✅ Tabs inicializados');
-    });
 
     inicializar();
 </script>
-
 </body>
 </html>
